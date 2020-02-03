@@ -25,7 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(tags = {"0. token값 전달"})
+@Api(tags = {"Github 로그인"})
 @RestController
 @RequestMapping(value="/v1")
 public class AccessController {

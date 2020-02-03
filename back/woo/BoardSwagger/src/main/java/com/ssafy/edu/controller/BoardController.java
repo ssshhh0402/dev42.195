@@ -170,51 +170,54 @@ public class BoardController {
 			+ "}", response = BoardNumberResult.class)
 	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
 	public ResponseEntity<BoardNumberResult> updateBoard(
-			@RequestParam(value = "dto_str", required = true) Board_email dto_str,
+			@RequestParam(value = "dto_str", required = true) String dto_str,
 			@RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 		System.out.println("================updateBoard================\t" + new Date());
 
 		ObjectMapper mapper = new ObjectMapper();
 
-//		Board dto = mapper.readValue(dto_str, Board.class);
+		Board dto = mapper.readValue(dto_str, Board.class);
 
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMdd");
 		String now = dateformat.format(new Date());
 
-//		String originImg = dto.getImg();
+		Board b = service.getBoardByID(dto.getBoard_id());
+		String originImg = b.getImg();
+		dto.setPeople_now(b.getPeople_now());
 
-//		if (file == null || file.isEmpty()) {
-//			service.updateBoard(dto);
-//		} else { // 이미지 수정시
-//			String filename = file.getOriginalFilename();
-//			String filenameExtension = FilenameUtils.getExtension(filename).toLowerCase();
-//			File destinationFile;
-//			String destinationFileName;
-//			String fileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
-//
-//			SimpleDateFormat timeformat = new SimpleDateFormat("yyMMddHHmmss");
-//			destinationFileName = timeformat.format(new Date()) + "." + filenameExtension;
-//			destinationFile = new File(fileUrl + destinationFileName);
-//
-//			System.out.println("File : " + destinationFileName + "======" + new Date());
-//
-//			file.transferTo(destinationFile);
-//			String saveUrl = "http://192.168.31.122:8197/image/";
-//			dto.setImg(saveUrl + destinationFileName);
-//
-//			service.updateBoardAll(dto);
-//
-//			String originfileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
-//			String originfilename = originImg.substring(33);
-//
-//			File orignfile = new File(originfileUrl + originfilename);
-//
-//			if (orignfile.exists()) {
-//				if (orignfile.delete())
-//					System.out.println("=====" + filename + "=====deleted!!");
-//			}
-//
-//		}
+		if (file == null || file.isEmpty()) {
+			dto.setImg(originImg);
+			service.updateBoard(dto);
+		} else { // 이미지 수정시
+			String filename = file.getOriginalFilename();
+			String filenameExtension = FilenameUtils.getExtension(filename).toLowerCase();
+			File destinationFile;
+			String destinationFileName;
+			String fileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
+
+			SimpleDateFormat timeformat = new SimpleDateFormat("yyMMddHHmmss");
+			destinationFileName = timeformat.format(new Date()) + "." + filenameExtension;
+			destinationFile = new File(fileUrl + destinationFileName);
+
+			System.out.println("File : " + destinationFileName + "======" + new Date());
+
+			file.transferTo(destinationFile);
+			String saveUrl = "http://192.168.31.122:8197/image/";
+			dto.setImg(saveUrl + destinationFileName);
+
+			service.updateBoardAll(dto);
+
+			String originfileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
+			String originfilename = originImg.substring(33);
+
+			File orignfile = new File(originfileUrl + originfilename);
+
+			if (orignfile.exists()) {
+				if (orignfile.delete())
+					System.out.println("=====" + filename + "=====deleted!!");
+			}
+
+		}
 		BoardNumberResult bnr = new BoardNumberResult();
 
 		bnr.setNumber(0);
