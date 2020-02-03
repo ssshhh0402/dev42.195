@@ -9,13 +9,15 @@
         style="background:black">
         <v-row>
             <v-col
-            cols="5">
-                <v-img :src="content.img" width="100%" aspect-ratio="0.7"/>
+            cols="5" style="margin:auto">
+                <v-img :src="content.img" width="100%" aspect-ratio="0.7" style="margin:auto"/>
             </v-col>
             <v-col
-            cols="7">
+            cols="7" style="margin:auto">
                 <v-card-title primary-title class="text-truncate" style="color:white; font-size:2rem">
+                    <div class="text-truncate">
                     {{content.title}}
+                    </div>
                 </v-card-title>
                 <v-card-text style="color:white; font-size:1.5rem">
                     <p class="text">모집시작시간</p>

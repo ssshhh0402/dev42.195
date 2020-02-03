@@ -1,7 +1,7 @@
 <template>
     <div>
     <v-layout wrap>
-        <v-flex xs12 sm6 lg3 v-for="i in lists" :key="i.key">
+        <v-flex xs12 sm6 lg3 :v-for="i in lists.slice(8*(page-1),8*page)" :key="i.key">
             <join class="ma-3"
             :money="i.price"
             :i_title="i.title"

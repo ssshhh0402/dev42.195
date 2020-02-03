@@ -1,5 +1,5 @@
 <template>
-        <v-card>
+        <v-card @click="clickCard()">
             <v-img :src="img_url" height="45vh"></v-img>
             <v-card-title primary-title>
                 <div class="headline font-weight-bold text-truncate">{{i_title}}</div>
@@ -23,6 +23,20 @@ export default {
     data(){
         return{
 
+        }
+    },
+    methods:{
+        clickCard(){
+            let dto={
+                img_url:this.img_url,
+                i_title : this.title,
+                s_date: this.s_date,
+                e_date : this.e_date,
+                location : this.location,
+                host : this.host,
+                people_num : this.people_num
+            }
+            this.$router.push({name:'detailpage',params:{data:dto}});
         }
     }
    
