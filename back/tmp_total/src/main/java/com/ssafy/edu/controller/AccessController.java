@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.ssafy.edu.dto.AccessToken;
+import com.ssafy.edu.dto.CodeRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,14 +63,13 @@ public class AccessController {
 
 	@ApiOperation(value="로그인", notes="이메일로 로그인을 하는 리턴값으로 토큰을 발행")
 	@PostMapping(value = "/github/accessToken")
-	public AccessToken getGithubAccessToken(	@ApiParam(value = "code 번호", required = true ) @RequestParam String code) {
-
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		
+	public AccessToken getGithubAccessToken(	@ApiParam(value = "code 번호", required = true ) @RequestBody CodeRequest codeRequest) {
+		String code = codeRequest.getCode();
+		logger.info(code);
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();		
 		parameters.add("client_id", githubClientId);
 		parameters.add("client_secret", githubSecretid);
 		parameters.add("code", code);
-
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, null);
 		try {
             // Request profile
@@ -80,8 +81,7 @@ public class AccessController {
             	Map<String, String> map = getQueryMap(response.getBody());
             	res.setAccess_token(map.get("access_token"));
             	res.setScope(map.get("scope"));
-            	res.setToken_type(map.get("token_type"));
-            	
+            	res.setToken_type(map.get("token_type"));            	
                 return res;
             }
         } catch (Exception e) {
@@ -92,16 +92,13 @@ public class AccessController {
 	
 	@ApiOperation(value="로그인", notes="이메일로 로그인을 하는 리턴값으로 토큰을 발행")
 	@PostMapping(value = "/accessToken")
-	public AccessToken getAccessToken(	@ApiParam(value = "code 번호", required = true ) @RequestParam String code) {
-
+	public AccessToken getAccessToken(	@ApiParam(value = "code 번호", required = true ) @RequestBody CodeRequest codeRequest) {
+		String code = codeRequest.getCode();
 		logger.info(code);		
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
-		
 		parameters.add("client_id", githubClientId);
 		parameters.add("client_secret", githubSecretid);
 		parameters.add("code", code);
-
-
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, null);
 		try {
             // Request profile
@@ -114,7 +111,6 @@ public class AccessController {
             	res.setAccess_token(map.get("access_token"));
             	res.setScope(map.get("scope"));
             	res.setToken_type(map.get("token_type"));
-            	
                 return res;
             }
         } catch (Exception e) {
