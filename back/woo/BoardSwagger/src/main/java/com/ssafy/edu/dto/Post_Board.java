@@ -16,6 +16,12 @@ public class Post_board {
 		this.email = email;
 		this.board_id = board_id;
 	}
+	
+	public Post_board(String email, int board_id) {
+		super();
+		this.email = email;
+		this.board_id = board_id;
+	}
 
 	@Override
 	public String toString() {
