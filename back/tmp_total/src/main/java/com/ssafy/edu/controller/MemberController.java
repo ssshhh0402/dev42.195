@@ -26,6 +26,7 @@ import com.ssafy.edu.dto.Member;
 import com.ssafy.edu.help.MemberNumberResult;
 import com.ssafy.edu.service.IJwtService;
 import com.ssafy.edu.service.IMemberService;
+import com.ssafy.response.CommonResponse;
 import com.ssafy.response.LoginResponse;
 import com.ssafy.response.SingleResult;
 
@@ -55,7 +56,6 @@ public class MemberController {
 		System.out.println("================addMember================\t" + new Date());
 		System.out.println(dto.toString());
 		
-//		System.out.println(dto);
 		Member m = service.getMemberByID(dto.getEmail());
 
 		MemberNumberResult mnr = new MemberNumberResult();
@@ -225,14 +225,14 @@ public class MemberController {
 		String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
         Member member = service.getMemberByID(email);
         if(member == null) {
-        	return new LoginResponse(1, "social login fail");
+        	return new LoginResponse(1, "social login fail", "fail");
         }
         
         //member 에 있는 token -> accessToken으로 업데이트 해야된다.
         member.setToken(accessToken);
         service.updateToken(member);
         
-        LoginResponse res = new LoginResponse(0, "social login success");
+        LoginResponse res = new LoginResponse(0, "social login success", CommonResponse.SUCC);
         res.setAccessToken(jwtTokenProvider.createToken(String.valueOf(member.getEmail()), member.getRole()));
         return res;
     }
@@ -246,10 +246,10 @@ public class MemberController {
         logger.info("소설 가입 - " + githubMember.toString() + " , " + githubUserEmail.getEmail());
         Member member = service.getMemberByID(githubUserEmail.getEmail());
         if (member != null)
-            return new SingleResult<GithubMember>(1, "이미 회원가입이 되어있습니다.");
+            return new SingleResult<GithubMember>(1, "이미 회원가입이 되어있습니다.", CommonResponse.FAIL);
         Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         service.addMember(newMember);
-        SingleResult<GithubMember> res =  new SingleResult<>(0, "social signup success");
+        SingleResult<GithubMember> res =  new SingleResult<>(0, "social signup success", CommonResponse.SUCC);
         res.setData(githubMember);
         return res;
     }
