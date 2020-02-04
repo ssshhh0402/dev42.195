@@ -1,4 +1,4 @@
-package com.ssafy.edu.controller;
+package com.ssafy.manv.controller;
 
 import java.util.Date;
 
@@ -23,7 +23,6 @@ import com.ssafy.edu.dto.GithubMember;
 import com.ssafy.edu.dto.GithubUserEmail;
 import com.ssafy.edu.dto.MailUtil;
 import com.ssafy.edu.dto.Member;
-import com.ssafy.edu.dto.TokenRequest;
 import com.ssafy.edu.help.MemberNumberResult;
 import com.ssafy.edu.service.IJwtService;
 import com.ssafy.edu.service.IMemberService;
@@ -221,28 +220,26 @@ public class MemberController {
 	
 	@ApiOperation(value = "소셜 로그인", notes = "소셜 회원 로그인을 한다.")
     @PostMapping(value = "/signin/github")
-    public LoginResponse signinByProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestBody TokenRequest tokenRequest) {
+    public LoginResponse signinByProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
-		String accessToken = tokenRequest.getAccess_token();
 		String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
         Member member = service.getMemberByID(email);
         if(member == null) {
-        	return new LoginResponse(1, "social login fail", CommonResponse.FAIL);
+        	return new LoginResponse(1, "social login fail", "fail");
         }
         
         //member 에 있는 token -> accessToken으로 업데이트 해야된다.
         member.setToken(accessToken);
         service.updateToken(member);
+        
         LoginResponse res = new LoginResponse(0, "social login success", CommonResponse.SUCC);
-        res.setAccessToken(jwtTokenProvider.createToken(member.getEmail(), member.getRole()));
+        res.setAccessToken(jwtTokenProvider.createToken(String.valueOf(member.getEmail()), member.getRole()));
         return res;
     }
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/signup/github")
-    // api/signup/github
-    public SingleResult<GithubMember> signupProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestBody TokenRequest tokenRequest) {
-    	String accessToken = tokenRequest.getAccess_token();
+    public SingleResult<GithubMember> signupProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
     	logger.info("소셜 가입 - " + accessToken);
         GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
         GithubUserEmail githubUserEmail = githubMemberService.getGithubUserPrivateEmail(accessToken);

@@ -1,4 +1,4 @@
-package com.ssafy.edu.controller;
+package com.ssafy.manv.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,22 +38,24 @@ import com.ssafy.edu.dto.Post_board;
 import com.ssafy.edu.help.BoardNumberResult;
 import com.ssafy.edu.service.IBoardService;
 import com.ssafy.edu.service.IMemberService;
+import com.ssafy.manv.service.BoardService;
+import com.ssafy.manv.service.MemberService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "BoardController", description = "게시글")
+@Api(value = "BoardController")
 public class BoardController {
 
 	public static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
 	@Autowired
-	private IBoardService service;
+	private BoardService boardService;
 
 	@Autowired
-	private IMemberService mservice;
+	private MemberService memberService;
 
 	@ApiOperation(value = "모든 게시판 정보를 가져온다.", response = List.class)
 	@RequestMapping(value = "/getBoard", method = RequestMethod.GET)
@@ -107,7 +109,6 @@ public class BoardController {
 			File destinationFile;
 			String destinationFileName;
 			String fileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
-			//이거 문제 생김
 
 			SimpleDateFormat timeformat = new SimpleDateFormat("yyMMddHHmmss");
 			destinationFileName = timeformat.format(new Date()) + "." + filenameExtension;
@@ -149,12 +150,13 @@ public class BoardController {
 		return new ResponseEntity<BoardNumberResult>(bnr, HttpStatus.OK);
 	}
 
-	
 	@ApiOperation(value = "하나의 게시글을 가져온다", response = Board.class)
 	@RequestMapping(value = "/getBoardByID/{board_id}", method = RequestMethod.GET)
 	public ResponseEntity<Board> getBoardByID(@PathVariable int board_id) throws Exception {
 		System.out.println("================getBoardByID================\t" + new Date());
+
 		Board b = service.getBoardByID(board_id);
+
 		if (b == null) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
