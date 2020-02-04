@@ -1,48 +1,92 @@
 package com.ssafy.manv.entity;
 
-public class Apply {
-	private int apply_id;
-	private String apply_date;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name = "apply")
+public class Apply implements Serializable{
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="apply_id")
+	private Integer applyId;
+	
+	@Column(name="apply_date")
+	private String applyDate;
+	
 	private String email;
+	
+	@Column(name="board_id")
+	private Integer boardId;
+	
 	
 	public Apply() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Apply(int apply_id, String apply_date, String email) {
+
+	public Apply(Integer applyId, String applyDate, String email, Integer boardId) {
 		super();
-		this.apply_id = apply_id;
-		this.apply_date = apply_date;
+		this.applyId = applyId;
+		this.applyDate = applyDate;
 		this.email = email;
+		this.boardId = boardId;
 	}
+	
 
 	@Override
 	public String toString() {
-		return "Apply [apply_id=" + apply_id + ", apply_date=" + apply_date + ", email=" + email + "]";
+		return "Apply [applyId=" + applyId + ", applyDate=" + applyDate + ", email=" + email + ", boardId=" + boardId
+				+ "]";
 	}
 
-	public int getApply_id() {
-		return apply_id;
+
+	public Integer getApplyId() {
+		return applyId;
 	}
 
-	public void setApply_id(int apply_id) {
-		this.apply_id = apply_id;
+
+	public void setApplyId(Integer applyId) {
+		this.applyId = applyId;
 	}
 
-	public String getApply_date() {
-		return apply_date;
+
+	public String getApplyDate() {
+		return applyDate;
 	}
 
-	public void setApply_date(String apply_date) {
-		this.apply_date = apply_date;
+
+	public void setApplyDate(String applyDate) {
+		this.applyDate = applyDate;
 	}
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
+	public Integer getBoardId() {
+		return boardId;
+	}
+
+
+	public void setBoardId(Integer boardId) {
+		this.boardId = boardId;
+	}
+	
+	
 }

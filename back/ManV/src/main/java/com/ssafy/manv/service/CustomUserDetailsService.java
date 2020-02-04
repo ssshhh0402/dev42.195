@@ -1,5 +1,6 @@
 package com.ssafy.manv.service;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.manv.entity.Member;
-
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-
-	//@Autowired
-	//private MemberJpaRepo memberJpaRepo;
 	
 	@Autowired
 	private MemberService memberService;
@@ -26,9 +22,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.info("CustomUserDetail username = "+username);
-		Member member = memberService.getMemberByID(username);
-		return member;
+		return memberService.findByEmail(username);
+		//사용자가 DB에 없는경우.
+		//https://odol87.tistory.com/7 loadUserByUsername 참고.
 	}
-	
 	
 }

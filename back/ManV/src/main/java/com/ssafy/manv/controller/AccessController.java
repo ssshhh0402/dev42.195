@@ -15,13 +15,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
-import com.ssafy.edu.dto.AccessToken;
-import com.ssafy.edu.dto.CodeRequest;
+import com.ssafy.manv.entity.AccessToken;
+import com.ssafy.manv.request.CodeRequest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +28,7 @@ import io.swagger.annotations.ApiParam;
 
 @Api(tags = {"0. token값 전달"})
 @RestController
-@RequestMapping(value="/v1")
+@RequestMapping(value="/api")
 public class AccessController {
 	
 
@@ -41,8 +40,11 @@ public class AccessController {
 	@Autowired
 	private Gson gson;
 	
-	private String githubClientId = "7038e018caed836c5c38";
-	private String githubSecretid = "5df543f4a47e52eb209c22f9c0b1dec74a5894c5";
+	@Value("spring.github.ClientId")
+	private String githubClientId;
+	
+	@Value("spring.github.SecretId")
+	private String githubSecretid;
 	
 	public Map<String, String> getQueryMap(String query)  
 	{  

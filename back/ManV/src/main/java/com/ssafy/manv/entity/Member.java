@@ -4,29 +4,39 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Entity
+@Table(name = "cmember")
 public class Member implements Serializable, UserDetails{
-	private static final long serialVersionUID = 1L;
+	
+	@Id
 	private String email;
 	private String pwd;
 	private String phone;
 	private String name;
-	private int auth;
+	private String auth;
 	private String job;
 	private String token;
 	private String info;
-	private int birth;
+	private String birth;
+
+	final static public String USER = "USER";
+	final static public String ADMIN = "ADMIN"; 
 	
 	public Member() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public Member(String email, String pwd, String phone, String name, int auth, String job, String token, String info,
-			int birth) {
+	
+	public Member(String email, String pwd, String phone, String name, String auth, String job, String token,
+			String info, String birth) {
 		super();
 		this.email = email;
 		this.pwd = pwd;
@@ -39,24 +49,10 @@ public class Member implements Serializable, UserDetails{
 		this.birth = birth;
 	}
 
-	public Member(String email, String pwd, String phone, String name, String job, int birth) {
-		super();
-		this.email = email;
-		this.pwd = pwd;
-		this.phone = phone;
-		this.name = name;
-		this.job = job;
-		this.birth = birth;
-	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		if(this.auth == 0) {
-			ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-	        auth.add(new SimpleGrantedAuthority("USER"));
-	        return auth;
-		}
 		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority("ADMIN"));
+        auth.add(new SimpleGrantedAuthority(this.auth));
         return auth;
 
 	}
@@ -129,11 +125,11 @@ public class Member implements Serializable, UserDetails{
 		this.name = name;
 	}
 
-	public int getAuth() {
+	public String getAuth() {
 		return auth;
 	}
 
-	public void setAuth(int auth) {
+	public void setAuth(String auth) {
 		this.auth = auth;
 	}
 
@@ -161,19 +157,12 @@ public class Member implements Serializable, UserDetails{
 		this.info = info;
 	}
 
-	public int getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirth(int birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
-	}
-	
-	public String getRole() {
-		if(this.auth == 0) {
-			return "USER";
-		}
-		return "ADMIN";
 	}
 	
 }

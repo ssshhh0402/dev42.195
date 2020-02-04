@@ -1,8 +1,12 @@
 package com.ssafy.manv.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.manv.entity.Member;
 import com.ssafy.manv.repo.MemberRepo;
 
 
@@ -10,42 +14,29 @@ import com.ssafy.manv.repo.MemberRepo;
 public class MemberService {
 
 	@Autowired
-	private MemberRepo dao;
+	private MemberRepo memberRepo;
 
-	@Override
-	public Member getMemberByID(String email) {
-		return dao.getMemberByID(email);
-	}
-
-	@Override
-	public void addMember(Member dto) {
-//		String encodedPassword = new BCryptPasswordEncoder().encode(dto.getPwd());
-//		dto.setPwd(encodedPassword);
-		dao.addMember(dto);
-	}
-
-	@Override
-	public void deleteMember(String email) {
-		dao.deleteMember(email);
-	}
-
-	@Override
-	public void changeMemberInfo(Member dto) {
-		dao.changeMemberInfo(dto);
-	}
-
-	@Override
-	public void changePwd(Member dto) {
-		dao.changePwd(dto);
+	public Member findByEmail(String email) {
+		return memberRepo.findByEmail(email).orElse(null);
+		//실패할 경우 null을 리턴
 	}
 	
-	@Override
-	public String getTokenById(String email) {
-		return dao.getTokenById(email);
+	public List<Member> findAll(){
+		return memberRepo.findAll();
+	}
+	public Member findByEmailAndPwd(String email, String pwd){
+		if(pwd == null) {
+			return null;
+		}
+		return memberRepo.findByEmailAndPwd(email, pwd).orElse(null);
 	}
 	
-	@Override
-	public void updateToken(Member member) {
-		dao.updateToken(member);
+	public Member save(Member member) {
+		return memberRepo.save(member);
+	}
+	
+	
+	public void delete(Member member) {
+		memberRepo.delete(member);
 	}
 }

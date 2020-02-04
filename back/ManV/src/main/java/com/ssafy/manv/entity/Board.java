@@ -3,6 +3,7 @@ package com.ssafy.manv.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,122 +15,77 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
 @Table(name="board")
 public class Board implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) //default
-	@Column(name = "board_id")
-	private int board_id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //default .AUTO
+	@Column(name="board_id")
+	private Integer boardId;
 	
-	@Column(name = "title")
 	private String title;
-	
-	@Column(name = "host")
 	private String host;
+
+	@Column(name="apply_start")
+	private String applyStart;
+
+	@Column(name="apply_end")
+	private String applyEnd;
 	
-	private String apply_start;
-	private String apply_end;
 	private String start;
 	private String end;
-	private int people_num;
-	private int price;
+	
+	@Column(name="people_num")
+	private int peopleNum;
+	
+	private int price; //총 상금으로 생각하자.
 	private String location;
 	private String info;
 	private String img;
-	private int people_now;
+	private String email;
+	
+	@Column(name="post_date")
+	private String postDate; 
 	
 	public Board() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Board(int board_id, String title, String host, String apply_start, String apply_end, String start,
-			String end, int people_num, int price, String location, String info, String img, int people_now) {
+	public Board(Integer boardId, String title, String host, String applyStart, String applyEnd, String start,
+			String end, int peopleNum, int price, String location, String info, String img, String email,
+			String postDate) {
 		super();
-		this.board_id = board_id;
+		this.boardId = boardId;
 		this.title = title;
 		this.host = host;
-		this.apply_start = apply_start;
-		this.apply_end = apply_end;
+		this.applyStart = applyStart;
+		this.applyEnd = applyEnd;
 		this.start = start;
 		this.end = end;
-		this.people_num = people_num;
+		this.peopleNum = peopleNum;
 		this.price = price;
 		this.location = location;
 		this.info = info;
 		this.img = img;
-		this.people_now = people_now;
-	}
-
-	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
-			int people_num, int price, String location, String info, String img, int people_now) {
-		super();
-		this.title = title;
-		this.host = host;
-		this.apply_start = apply_start;
-		this.apply_end = apply_end;
-		this.start = start;
-		this.end = end;
-		this.people_num = people_num;
-		this.price = price;
-		this.location = location;
-		this.info = info;
-		this.img = img;
-		this.people_now = people_now;
-	}
-
-	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
-			int people_num, int price, String location, String info, int people_now) {
-		super();
-		this.title = title;
-		this.host = host;
-		this.apply_start = apply_start;
-		this.apply_end = apply_end;
-		this.start = start;
-		this.end = end;
-		this.people_num = people_num;
-		this.price = price;
-		this.location = location;
-		this.info = info;
-		this.people_now = people_now;
-	}
-	
-	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
-			int people_num, int price, String location, String info, String img) {
-		super();
-		this.title = title;
-		this.host = host;
-		this.apply_start = apply_start;
-		this.apply_end = apply_end;
-		this.start = start;
-		this.end = end;
-		this.people_num = people_num;
-		this.price = price;
-		this.location = location;
-		this.info = info;
-		this.img = img;
+		this.email = email;
+		this.postDate = postDate;
 	}
 
 	@Override
 	public String toString() {
-		return "Board [board_id=" + board_id + ", title=" + title + ", host=" + host + ", apply_start=" + apply_start
-				+ ", apply_end=" + apply_end + ", start=" + start + ", end=" + end + ", people_num=" + people_num
-				+ ", price=" + price + ", location=" + location + ", info=" + info + ", img=" + img + ", people_now="
-				+ people_now + "]";
+		return "Board [boardId=" + boardId + ", title=" + title + ", host=" + host + ", applyStart=" + applyStart
+				+ ", applyEnd=" + applyEnd + ", start=" + start + ", end=" + end + ", peopleNum=" + peopleNum
+				+ ", price=" + price + ", location=" + location + ", info=" + info + ", img=" + img + ", email=" + email
+				+ ", postDate=" + postDate + "]";
 	}
 
-	public int getBoard_id() {
-		return board_id;
+	public Integer getBoardId() {
+		return boardId;
 	}
 
-	public void setBoard_id(int board_id) {
-		this.board_id = board_id;
+	public void setBoardId(Integer boardId) {
+		this.boardId = boardId;
 	}
 
 	public String getTitle() {
@@ -148,20 +104,20 @@ public class Board implements Serializable{
 		this.host = host;
 	}
 
-	public String getApply_start() {
-		return apply_start;
+	public String getApplyStart() {
+		return applyStart;
 	}
 
-	public void setApply_start(String apply_start) {
-		this.apply_start = apply_start;
+	public void setApplyStart(String applyStart) {
+		this.applyStart = applyStart;
 	}
 
-	public String getApply_end() {
-		return apply_end;
+	public String getApplyEnd() {
+		return applyEnd;
 	}
 
-	public void setApply_end(String apply_end) {
-		this.apply_end = apply_end;
+	public void setApplyEnd(String applyEnd) {
+		this.applyEnd = applyEnd;
 	}
 
 	public String getStart() {
@@ -180,12 +136,12 @@ public class Board implements Serializable{
 		this.end = end;
 	}
 
-	public int getPeople_num() {
-		return people_num;
+	public int getPeopleNum() {
+		return peopleNum;
 	}
 
-	public void setPeople_num(int people_num) {
-		this.people_num = people_num;
+	public void setPeopleNum(int peopleNum) {
+		this.peopleNum = peopleNum;
 	}
 
 	public int getPrice() {
@@ -220,12 +176,20 @@ public class Board implements Serializable{
 		this.img = img;
 	}
 
-	public int getPeople_now() {
-		return people_now;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPeople_now(int people_now) {
-		this.people_now = people_now;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPostDate() {
+		return postDate;
+	}
+
+	public void setPostDate(String postDate) {
+		this.postDate = postDate;
 	}
 	
 }
