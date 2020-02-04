@@ -4,7 +4,9 @@ import MainPage from './views/MainPage.vue'
 import JoinPage from './views/JoinPage.vue'
 import MyPage from './views/MyPage.vue'
 import CreatePage from './views/CreatePage.vue'
-import DetailPage from './components/detail.vue';
+import DetailPage from './components/detail.vue'
+import AboutUsPage from './components/seo/AboutUsPage.vue';
+
 Vue.use(Router)
 
 export default new Router({
@@ -45,6 +47,11 @@ export default new Router({
             path:'/detailpage/:data',
             name:'detailpage',
             component: DetailPage
+        },
+        {
+            path:'/aboutuspage',
+            name:'aboutuspage',
+            component: AboutUsPage
         }
         //detailpage
     ]
