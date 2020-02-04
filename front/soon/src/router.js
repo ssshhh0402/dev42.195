@@ -32,8 +32,8 @@ export default new Router({
             component: CreatePage
         },
         {
-            path:'/detail/:id',
-            name:'Detail',
+            path:'/detail/',
+            name:'detailpage',
             component: DetailPage
         }
     ]
