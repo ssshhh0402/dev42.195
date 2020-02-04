@@ -6,7 +6,7 @@
             </v-card-title>
             <v-card-text>
                 <p class="grey--text text-center">{{s_date}} ~ {{e_date}}</p>
-                <p class="grey --text text-center">참가비 {{money}}</p>
+                <p class="grey --text text-center">{{people_num}}</p>
             </v-card-text>
         </v-card>
 </template>
@@ -14,11 +14,13 @@
 export default {
     name:'join',
     props:{
-        money : {type: Number},
+        host : {type: String},
         img_url:{ type: String},
         i_title : {type: String},
         s_date: {type:String},
-        e_date : {type:String}
+        e_date : {type:String},
+        location : {type: String},
+        people_num : {type: Number}
     },
     data(){
         return{
@@ -29,14 +31,15 @@ export default {
         clickCard(){
             let dto={
                 img_url:this.img_url,
-                i_title : this.title,
+                i_title : this.i_title,
                 s_date: this.s_date,
                 e_date : this.e_date,
                 location : this.location,
                 host : this.host,
                 people_num : this.people_num
             }
-            this.$router.push({name:'detailpage',params:{data:dto}});
+            sessionStorage.setItem("contents", JSON.stringify(dto))
+            this.$router.push({name:'detailpage'})
         }
     }
    

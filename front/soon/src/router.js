@@ -32,7 +32,7 @@ export default new Router({
             component: CreatePage
         },
         {
-            path:'/detail/:data',
+            path:'/detail/',
             name:'detailpage',
             component: DetailPage
         }
