@@ -85,7 +85,7 @@ export default {
           firstMenuItems: [
               {title: '개인정보처리방침'},
               {title: '만든 사람들', path:'/aboutuspage'},
-              {title: '문의사항: 010-1234-3898'},
+              {title: '문의사항: godofssafy@ssafy.com'},
           ],
           secondMenuItems: [
               {title: '대전광역시 유성구 동서대로 98-39 삼성화재 유성캠퍼스',
