@@ -59,8 +59,8 @@ export default {
             }else if(data ==='만들기'){
                 
             this.$router.push('registhackaton');
-            }else if(data==='신청기'){
-                console.log("????>??");
+            }else if(data==='신청하기'){
+                this.$router.push('join')
             }
         }
     },

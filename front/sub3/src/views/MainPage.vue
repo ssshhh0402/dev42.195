@@ -24,22 +24,13 @@
   </v-row>
   </template>
 <script>
-//import content_list from '../components/content_list'
-// import profile from '../components/profile'
-// import ranking from '../components/ranking'
-// import famous from '../components/famous'
-// import today from '../components/today'
+
 import card_list from '../components/card_list'
 import alarm from '../components/alarm'
 import hottest from '../components/hottest'
 export default {
   name: 'HelloWorld',
   components : {
-    //content_list,
-    // profile,
-    //ranking,
-    //famous,
-    //today
     card_list,
     alarm,
     hottest,

@@ -58,7 +58,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
     name:'alarm',
     data(){
@@ -76,15 +76,15 @@ export default {
         }
     },
     mounted(){
-        this.setting()
+        // this.setting()
     },
     methods:{
-        setting(){
-             axios.get('http://127.0.0.1:8000/board/')
-            .then(message =>{
-                console.log(message)
-            })
-    }
+    //     setting(){
+    //          axios.get('http://127.0.0.1:8000/board/')
+    //         .then(message =>{
+    //             console.log(message)
+    //         })
+    // }
 }
 }
 </script>
