@@ -82,12 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO APPLY_BOARD(BOARD_ID, APPLY_ID, EMAIL) VALUES(#{board_id}, #{apply_id}, #{email})
 	</insert>
 	
-	<select id="searchBoardByTitle" parameterType="java.lang.String" resultType="com.ssafy.edu.dto.Board">
+	<select id="searchBoard" parameterType="java.lang.String" resultType="com.ssafy.edu.dto.Board">
 		SELECT * FROM BOARD WHERE TITLE LIKE CONCAT('%',#{keyword},'%')
-	</select>
-	
-	<select id="searchBoardByTag" parameterType="java.lang.String" resultType="com.ssafy.edu.dto.Board">
-<!-- 		SELECT * FROM BOARD WHERE HASHTAG LIKE CONCAT('%',#{keyword},'%') -->
 	</select>
 
 </mapper>

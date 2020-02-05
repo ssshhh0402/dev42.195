@@ -10,33 +10,29 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.ssafy.edu.service.JwtTokenService;
-
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-	@Autowired
-	private JwtTokenService jwtTokenService;
+	private JwtTokenProvider jwtTokenProvider;
 	
 	private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);  
 	
-	public JwtAuthenticationFilter(JwtTokenService jwtTokenProvider) {
-		this.jwtTokenService = jwtTokenProvider;
+	public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+		this.jwtTokenProvider = jwtTokenProvider;
 	}
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 		throws IOException, ServletException {
-		String token = jwtTokenService.resolveToken((HttpServletRequest)request);
+		String token = jwtTokenProvider.resolveToken((HttpServletRequest)request);
 		logger.info("doFilter - " + token);
-		if(token != null && jwtTokenService.validateToken(token)) {
+		if(token != null && jwtTokenProvider.validateToken(token)) {
 			logger.info("doFilter in ");
-			Authentication auth = jwtTokenService.getAuthentication(token);
+			Authentication auth = jwtTokenProvider.getAuthentication(token);
 			SecurityContextHolder.getContext().setAuthentication(auth);
 		}
 		chain.doFilter(request, response);
