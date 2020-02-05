@@ -1,5 +1,5 @@
 <template>
-  <v-row style="margin:100px;" justify="center">
+  <v-row  justify="center">
       <v-card width="60vw" img ="https://www.onlygfx.com/wp-content/uploads/2017/07/yellow-watercolor-brush-stroke-4.png">
         <v-card-title >
           <span class="headline" style="margin:auto ">회원 가입</span>
@@ -7,10 +7,10 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="5" sm="5">
+              <v-col cols="6" sm="6">
                 <v-text-field solo-inverted v-model="id" :color="checkIDColor" label="Email_ID*" required></v-text-field>
               </v-col>
-              <v-col cols="5" sm="5">
+              <v-col cols="6" sm="6">
                 <v-select
                   :color="checkMailColor"
                   v-if="!ismailOther"
@@ -21,17 +21,17 @@
                 ></v-select>
                 <v-text-field solo-inverted id="_choosenOther" :color="checkMailColor" @blur="blurOtherChoose()" v-model="mail" v-if="ismailOther" label="직접입력*" required></v-text-field>
               </v-col>     
-               <v-col cols="2" md ="2" sm="12">
+               <v-col  xs = "12" sm="12" md ="12" lg="12">
                 <v-btn class="myBtn" :color="duplicateCheckColor" @click="duplicateCheck()">중복 체크</v-btn>
               </v-col>
-                <v-col cols="5" style="margin:auto">
+                <v-col xs = "6" sm="6" md ="6" lg="6" style="margin:auto">
                   <v-text-field :color="checkPwdColor" v-model="pwd" label="Password*" type="password" required></v-text-field>
                 </v-col>
-                <v-col cols="5" style="margin:auto">
-                  <v-text-field solo-inverted :color="checkPwdColor" v-model="pwd" label="Password*" type="password" required></v-text-field>
+                <v-col xs = "6" sm="6" md ="6" lg="6" style="margin:auto">
+                  <v-text-field solo-inverted v-model="pwd_conf" label="PasswordConf*" type="password" required></v-text-field>
                 </v-col>
-                <v-col cols="2">
-                  <v-btn class="myBtn" :color="duplicateCheckColor">암호 확인</v-btn>
+                <v-col xs = "12" sm="12" md ="12" lg="12">
+                  <v-btn class="myBtn" :color="pwd_conf_CheckColor">암호 확인</v-btn>
                 </v-col>
               <v-col cols="12" sm="6" md="5">
                 <v-text-field solo-inverted :color="checkNameColor" v-model="name" label="이름*" required></v-text-field>
@@ -47,16 +47,9 @@
                   filled auto-grow rows="4" row-height="30" shaped
                   v-model="info" label="Info" required></v-textarea>
               </v-col>
-              <!-- <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                  label="Skil"
-                  multiple
-                ></v-autocomplete>
-              </v-col> -->
             </v-row>
             <v-row>
-                <v-btn style="margin:auto 3px auto auto;" width="3vw" color="warning" large dark @click="dialog = false">Close</v-btn>
+                <v-btn style="margin:auto 3px auto auto;" width="3vw" color="warning" large dark @click="false">Close</v-btn>
                 <v-btn style="margin:auto auto auto 3px;" width="3vw" color="success" large dark @click="clickSaveBtn()">Save</v-btn>
             </v-row>
           </v-container>
@@ -75,12 +68,13 @@ export default {
   },
   data(){
     return{
-      dialog : false,
       ismailOther : false,
       mail:"",
       id : "",
       pwd: "",
       name: "",
+      pwd_conf:"",
+      info:"",
       birth : Number,
       checkBirthToColor : "red",
       checkIDColor : "red",
@@ -88,6 +82,7 @@ export default {
       checkPwdColor : "red",
       checkNameColor : "red", 
       duplicateCheckColor : "red",
+      pwd_conf_CheckColor:"red",
     }
   },
   methods:{
@@ -109,8 +104,8 @@ export default {
     clickSaveBtn(){
       if(this.checkBirthToColor==="blue"&&this.checkIDColor==="blue"&&this.checkMailColor==="blue"&&this.checkPwdColor==="blue"
       &&this.checkNameColor==="blue"&&this.duplicateCheckColor==="blue"){
-      http
-      .post("/addMember", {
+        http
+          .post("/addMember", {
           birth: this.birth,
           email: this.id+"@"+this.mail,
           info: "test1",
@@ -123,7 +118,6 @@ export default {
                 console.log("clickSaveBtn() >>> "+response.data.state);
                 if(response.data.state=="succ"){
                   alert("회원 가입 성공!!!!");
-                  this.dialog = false;
                 }
         });
     }else{
@@ -171,9 +165,6 @@ export default {
       if(regExp.test(this.name)) return true;
       else return false;
     },
-    ifClickESC(){
-      this.dialog = false;
-    },
     isGithubLogin(){ //github login
       let code = location.search.split('code=')[1];
       var params = new URLSearchParams();
@@ -184,7 +175,6 @@ export default {
           console.log("성공!");
           document.cookie = `accessToken=${response.data.name}`;
           http.defaults.headers.common['x-access-token'] = response.data.name;
-          this.dialog = false;
         }else{
           console.log("없는 회원입니다. 회원가입을 진행합니다. ");
         }
@@ -194,17 +184,6 @@ export default {
       });
 
       return this.isSituationRegister();
-    },
-    isSituationRegister(){
-      let code = location.search.split('code=')[1];
-      console.log(code);
-      let accessToken = this.getCookie('accessToken');
-      console.log(">>>>"+accessToken);
-      if(code!=""&&code!==undefined&&code!==null){
-        if(accessToken==""||accessToken===undefined||accessToken===null){
-          this.dialog =true;
-        }
-      }
     },
     getCookie(cname) {
       var name = cname + "=";
@@ -220,7 +199,13 @@ export default {
         }
       }
       return "";
-    }
+    },
+    checkPwdConf(){
+      if(this.pwd_conf===this.pwd&&this.pwd!==""&&this.checkPwdColor!=="red"){
+        return true;
+      }
+      return false;
+    },
   }, 
   watch:{
     mail(){
@@ -245,20 +230,32 @@ export default {
         this.checkIDColor="red";
       }
     },
-    pwd(){
-      if(this.checkPwd()){
-        this.checkPwdColor="blue";
-      }else{
-        this.checkPwdColor="red";
-      }
-    },
     name(){
       if(this.checkName()){
         this.checkNameColor="blue";
       }else{
         this.checkNameColor="red";
       }
-    }
+    },
+    pwd(){
+      if(this.checkPwd()){
+        this.checkPwdColor="blue";
+      }else{
+        this.checkPwdColor="red";
+      }
+      if(this.checkPwdConf()){
+        this.pwd_conf_CheckColor = "blue";
+      }else{
+        this.pwd_conf_CheckColor = "red";
+      }
+    },
+    pwd_conf(){
+      if(this.checkPwdConf()){
+        this.pwd_conf_CheckColor = "blue";
+      }else{
+        this.pwd_conf_CheckColor = "red";
+      }
+    },
   },
   updated(){
     if(this.ismailOther===true&&this.mail===""){
@@ -277,9 +274,5 @@ export default {
   .overline.align-self-center{
     display:inline-block;
     padding-left:15px;
-  }
-  .myBtn{
-    display:inline-block;
-    
   }
 </style>

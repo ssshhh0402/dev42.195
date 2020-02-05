@@ -1,7 +1,6 @@
 <template >
 
-<v-row style="margin:100px" justify="center">
-    
+<v-row justify="center" style="margin-bottom:5vw">
     <v-card width="80vw" img ="https://www.onlygfx.com/wp-content/uploads/2017/07/yellow-watercolor-brush-stroke-4.png">
         <v-container>
         <v-card-title >
@@ -17,18 +16,18 @@
                         <v-text-field solo-inverted v-model="host" label="주최*" required></v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-text-field  v-model="price" type="number" label="정원*" required></v-text-field>
+                        <v-text-field  v-model="people_num" type="number" label="정원*" required></v-text-field>
                     </v-col>
                     <v-col cols="6"> 
                         <v-text-field   v-model="price" type="number"  label="참가비" required></v-text-field>
                     </v-col>
-                    <v-col  lg="6" md="6" sm="12">
+                    <v-col  lg="6" md="6" sm="12" xs="12">
                         <v-text-field solo-inverted readonly label="장소" :value="address" @click="daumPostcode()"></v-text-field>
                     </v-col>
-                    <v-col  lg="4" md="4" sm="8">
+                    <v-col  lg="4" md="4" sm="8" xs="8">
                         <v-text-field solo-inverted v-model="detailAddress" :value="detailAddress" label="상세 주소" id="_detailAddress" ></v-text-field>
                     </v-col>
-                    <v-col lg="2" md="2" sm="4">
+                    <v-col lg="2" md="2" sm="4" xs="8">
                         <v-checkbox :readonly="NoplaceCheckBox"
                         
                          v-model="NoplaceCheckBox" label="장소 미정"></v-checkbox>
@@ -71,7 +70,6 @@
 
         </v-card-actions>
     </v-card>
-    
 </v-row>
 </template>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
