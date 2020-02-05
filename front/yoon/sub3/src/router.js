@@ -4,9 +4,11 @@ import MainPage from './views/MainPage.vue'
 import JoinPage from './views/JoinPage.vue'
 import MyPage from './views/MyPage.vue'
 import CreatePage from './views/CreatePage.vue'
-import DetailPage from './components/detail.vue';
+import DetailPage from './views/DetailPage.vue'
 import RegistHackaton from './components/yoon/RegistHacktonPage.vue';
 import RegistMemberPage from './components/yoon/RegistMemberPage.vue';
+import PageNotFound from  './components/yoon/PageNotFound.vue';
+import ApplyHackatonPage from './components/yoon/ApplyHackatonPage.vue';
 Vue.use(Router)
 
 export default new Router({
@@ -34,17 +36,7 @@ export default new Router({
             component: CreatePage
         },
         {
-            path:'/detail/:id',
-            name:'Detail',
-            component: DetailPage
-        },
-        {
-            path:'/github*',
-            name:'github',
-            component: MainPage
-        },
-        {
-            path:'/detailpage/:data',
+            path:'/detail/',
             name:'detailpage',
             component: DetailPage
         },
@@ -57,7 +49,19 @@ export default new Router({
             path:'/registmemberpage',
             name:'registmemberpage',
             component: RegistMemberPage
+        },
+        {
+            path : '*',
+            redirect: '/404'
+        },
+        {
+            path:'/404',
+            component : PageNotFound
+        },
+        {
+            path :'/applyhackatonpage',
+            name : 'applyhackatonpage',
+            component : ApplyHackatonPage
         }
-        //detailpage
     ]
 })

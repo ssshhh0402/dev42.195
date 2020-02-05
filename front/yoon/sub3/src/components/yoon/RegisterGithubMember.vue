@@ -5,26 +5,18 @@
         <v-img :aspect-ratio="2" src="https://cdn.pixabay.com/photo/2015/10/02/10/36/the-background-968350_1280.jpg">
         <v-layout align-center fill-height>
                 <v-flex >
-                    <v-row style="margin:10px;" j>
+                    <v-row style="margin:10px;" >
                     <v-col cols="12">
                         <v-col height="1px" cols="8" style="margin:auto auto 0px auto;">
-                            <span style="color:white">ID</span><v-text-field  background-color="#EEEEEE" outlined v-model="uid" required></v-text-field>
+                            <span style="color:white">name</span><v-text-field solo-inverted v-model="uid" outlined required></v-text-field>
                         </v-col>
                         <v-col cols="8" style="margin:0px auto auto auto;">
-                            <span style="color:white">PWD</span><v-text-field  background-color="#EEEEEE" type="password" outlined v-model="pwd"  required></v-text-field>
+                            <span style="color:white">birth</span><v-text-field  solo-inverted type="password" outlined v-model="pwd"  required></v-text-field>
+                        </v-col>
+                        <v-col height="1px" cols="8" style="margin:auto auto 0px auto;">
+                            <span style="color:white">phone</span><v-text-field  solo-inverted v-model="uid" outlined required></v-text-field>
                         </v-col>
                         </v-col>                    
-                    </v-row>
-                    <v-row style="margin:10px;">
-                        <v-btn class="button" style="margin:auto;" width="350" height="50" @click="getGithubCode()">
-                             <img class='image' src='https://github.githubassets.com/images/modules/logos_page/Octocat.png' />
-                            GtiHub Login
-                            </v-btn>
-                    </v-row>
-                    <v-row>
-                        <v-btn class="button" @click="clickRegistMember()" style="margin:auto;" min-width="350" min-height="50">
-                                회원가입
-                            </v-btn>
                     </v-row>
                 </v-flex>
             </v-layout>
@@ -34,7 +26,7 @@
         <v-layout justify-center>
             <v-flex >  
                 <v-btn style="margin:auto 3px auto auto;" width="3vw" color="#424242" large dark @click="onLogin()">Close</v-btn>
-                <v-btn style="margin:auto auto auto 3px;" width="3vw" color="#F9A825" large dark @click="clickLoginBtn()">Login</v-btn>
+                <v-btn style="margin:auto auto auto 3px;" width="3vw" color="#F9A825" large dark @click="clickSaveBtn()">SAVE</v-btn>
             </v-flex>
         </v-layout>
         </v-card-actions>
@@ -46,7 +38,7 @@
 
 <script>
 
-import http from '../../http-common'
+import git from '../../git-common'
 
 export default {
     components:{
@@ -57,8 +49,10 @@ export default {
     ,
     data(){
         return{
-            uid: '',
-            pwd: '',
+            name: "",
+            birth: "",
+            phone: "",
+            token: ""
         }
     },
     methods:{
@@ -83,33 +77,23 @@ export default {
         btnApply(){
             this.$router.push('applyhackatonpage');
         },
-        clickLoginBtn () {
-                http.post('/login', { 
-                    email : this.uid, 
-                    pwd : this.pwd })
-                    .then(response => {
-                        if (response.data.state === "succ") {
-                            alert('로그인 성공');
-                            console.log(response.data);
-                            // document.cookie = `accessToken=${response.data.accessToken}`;
-                            // http.defaults.headers.common['x-access-token'] = response.data.accessToken;
-                            document.cookie = `accessToken=${response.data.name}`;
-                            http.defaults.headers.common['x-access-token'] = response.data.name;
-                        }else{
-                            alert('로그인 실패');
-                        }
-                    });
-                    return this.onLogin();
-            },
-            clickRegistMember(){
-                this.onLogin();
-                return this.$router.push({name:'registmemberpage'});
-            },
-            onLogin(){
+        onLogin(){
                 this.$emit('onLogin',false);
                 this.uid = "";
                 this.pwd = "";
-            }
+        },
+        clickSaveBtn(){
+      git.post("/addMember", {
+
+        })
+        .then(response => {
+                console.log("clickSaveBtn() >>> "+response.data.state);
+                if(response.data.state=="succ"){
+                  alert("회원 가입 성공!!!!");
+                  return this.onLogin();
+                }
+        });
+    }
     }
 }
 </script>

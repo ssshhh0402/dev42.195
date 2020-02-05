@@ -1,14 +1,15 @@
 <template>
     <div>
     <v-layout wrap>
-        <v-flex xs12 sm6 lg3 v-for="i in lists" :key="i.key">
+        <v-flex xs12 sm6 lg3 v-for="i in lists.length" :key="i">
             <join class="ma-3"
-            :money="i.price"
-            :i_title="i.title"
-            :s_date="i.start"
-            :e_date="i.end"
-            :img_url="i.img"
-            @click="clickJoin(i.title)"
+            :people_num="lists[i-1].people_num"
+            :i_title="lists[i-1].title"
+            :s_date="lists[i-1].apply_start"
+            :e_date="lists[i-1].apply_end"
+            :img_url="lists[i-1].img"
+            :location="lists[i-1].location"
+            :host="lists[i-1].host"
             ></join>
         </v-flex>
     </v-layout>
@@ -17,7 +18,7 @@
         <v-pagination
             v-model="page"
             class="my-4"
-            :length="parseInt(lists.length / 8) + 1"
+            :length="parseInt(lists.length / 4) + 1"
             ></v-pagination>
     </div>
     </div>
@@ -33,7 +34,14 @@ export default {
     data(){
         return{
             lists:[
-            ],
+                {money:0, location:'대전', host: 'Hong', i_url:'http://www.seouldesign.or.kr/file/temp/2017/201711/2f8ee2be-bfd7-47cf-b2c2-341362865135', title: 'a', s_date:'20200130', e_date:'20200130'},
+                {money:0, location:'대전', host: 'Hong', i_url:'http://jccei.kr/files/editor/4cc13380-3c07-4247-acc1-0c8d43bb2264.jpg', title: 'b', s_date:'20200130', e_date:'20200130'},
+                {money:0, location:'대전', host: 'Hong', i_url:'http://www.gist.ac.kr/kr/html/sub07/070103.html?mode=D&no=192467&file_id=50131', title: 'c', s_date:'20200130', e_date:'20200130'},
+                {money:0, location:'대전', host: 'Hong', i_url:'http://www.kosmi.org/rang_utils/tiny_mce/UPimg/180914120930_%ED%95%B4%EC%BB%A4%ED%86%A4%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg', title: 'd', s_date:'20200130',e_date:'20200130'},
+                {money:0, location:'대전', host: 'Hong', i_url:'https://img9.yna.co.kr/etc/inner/KR/2018/05/09/AKR20180509095500004_01_i_P2.jpg', title: 'e', s_date:'20200130', e_date:'20200130'},
+                {money:0, location:'대전', host: 'Hong', i_url:'http://www.all-con.co.kr/data/poster/1904/439292.jpg', title: 'f', s_date:'20200130', e_date:'20200130'},
+                ],
+            
             page : 1,
         }
     },
@@ -47,9 +55,6 @@ export default {
                 this.lists=message.data;
                 console.log(this.lists)
             })
-    },
-    clickJoin(data){
-        console.log(data);
     }
 }
 }

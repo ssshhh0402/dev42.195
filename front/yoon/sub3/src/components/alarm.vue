@@ -1,23 +1,25 @@
 <template>
     <div style="border: grey solid 1px; margin-top:30px">
             <v-col
-    cols="12"
-    style="text-align:center"
-    >
+            cols="12"
+            style="text-align:center;padding:0"
+            >
     <v-layout class="headline mb-3" style="font-weight:bold;font-style:italic;background:lightgrey;font-size:3rem !important; height:5rem">
       <v-flex style="margin:auto">공지사항</v-flex>
     </v-layout>
     </v-col>
-        <div class="text-center" v-for="i in alarams.length" :key="i">
+        <div class="text-center" v-for="i in alarams.length" :key="i" style="padding:0">
             <v-sheet color="#FED64D" v-if="!alarams[i-1].kind">
-                <v-row>
+                <v-row >
                     <v-col
                     cols="1">
-                    {{i}}번
+                    {{i}}
                     </v-col>
                     <v-col
                     cols="5">
+                        <div class="text-truncate">
                         {{alarams[i-1].content}}
+                        </div>
                     </v-col>
                     <v-col
                     cols="3">
@@ -33,11 +35,13 @@
                    <v-row>
                     <v-col
                     cols="1">
-                    {{i}}번
+                    {{i}}
                     </v-col>
                     <v-col
                     cols="5">
+                        <div class="text-truncate">
                         {{alarams[i-1].content}}
+                        </div>
                     </v-col>
                     <v-col
                     cols="3">
@@ -72,7 +76,6 @@ export default {
         }
     },
     mounted(){
-        this.setting()
     },
     methods:{
         setting(){
