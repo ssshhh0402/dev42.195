@@ -20,7 +20,8 @@ export default {
         s_date: {type:String},
         e_date : {type:String},
         location : {type: String},
-        people_num : {type: Number}
+        people_num : {type: Number},
+        info : {type:String}
     },
     data(){
         return{
