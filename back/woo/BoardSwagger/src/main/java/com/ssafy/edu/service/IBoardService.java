@@ -46,9 +46,7 @@ public interface IBoardService {
 
 	void addApplyBoard(Apply_board ab);
 
-	List<Board> searchBoardByTitle(String keyword);
+	List<Board> searchBoard(String keyword);
 
 	void addBoard(Board dto);
-
-	List<Board> searchBoardByTag(String hashtag);
 }

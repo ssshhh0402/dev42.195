@@ -8,30 +8,25 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 public class Member implements Serializable, UserDetails{
-	
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String pwd;
 	private String phone;
 	private String name;
-	private String auth;
+	private int auth;
 	private String job;
 	private String token;
 	private String info;
-	private String birth;
-	private String github;
-
-	final static public String USER = "USER";
-	final static public String ADMIN = "ADMIN"; 
+	private int birth;
 	
 	public Member() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Member(String email, String pwd, String phone, String name, String auth, String job, String token,
-			String info, String birth, String github) {
+	public Member(String email, String pwd, String phone, String name, int auth, String job, String token, String info,
+			int birth) {
 		super();
 		this.email = email;
 		this.pwd = pwd;
@@ -42,14 +37,28 @@ public class Member implements Serializable, UserDetails{
 		this.token = token;
 		this.info = info;
 		this.birth = birth;
-		this.github = github;
 	}
 
+	public Member(String email, String pwd, String phone, String name, String job, int birth) {
+		super();
+		this.email = email;
+		this.pwd = pwd;
+		this.phone = phone;
+		this.name = name;
+		this.job = job;
+		this.birth = birth;
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if(this.auth == 0) {
+			ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+	        auth.add(new SimpleGrantedAuthority("USER"));
+	        return auth;
+		}
 		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority(this.auth));
+        auth.add(new SimpleGrantedAuthority("ADMIN"));
         return auth;
+
 	}
 
 	@Override
@@ -120,11 +129,11 @@ public class Member implements Serializable, UserDetails{
 		this.name = name;
 	}
 
-	public String getAuth() {
+	public int getAuth() {
 		return auth;
 	}
 
-	public void setAuth(String auth) {
+	public void setAuth(int auth) {
 		this.auth = auth;
 	}
 
@@ -152,19 +161,19 @@ public class Member implements Serializable, UserDetails{
 		this.info = info;
 	}
 
-	public String getBirth() {
+	public int getBirth() {
 		return birth;
 	}
 
-	public void setBirth(String birth) {
+	public void setBirth(int birth) {
 		this.birth = birth;
 	}
-
-	public String getGithub() {
-		return github;
+	
+	public String getRole() {
+		if(this.auth == 0) {
+			return "USER";
+		}
+		return "ADMIN";
 	}
-
-	public void setGithub(String github) {
-		this.github = github;
-	}
+	
 }
