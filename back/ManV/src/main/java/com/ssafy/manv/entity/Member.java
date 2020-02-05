@@ -26,6 +26,7 @@ public class Member implements Serializable, UserDetails{
 	private String token;
 	private String info;
 	private String birth;
+	private String github;
 
 	final static public String USER = "USER";
 	final static public String ADMIN = "ADMIN"; 
@@ -35,8 +36,9 @@ public class Member implements Serializable, UserDetails{
 		// TODO Auto-generated constructor stub
 	}
 	
+
 	public Member(String email, String pwd, String phone, String name, String auth, String job, String token,
-			String info, String birth) {
+			String info, String birth, String github) {
 		super();
 		this.email = email;
 		this.pwd = pwd;
@@ -47,7 +49,9 @@ public class Member implements Serializable, UserDetails{
 		this.token = token;
 		this.info = info;
 		this.birth = birth;
+		this.github = github;
 	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -163,6 +167,16 @@ public class Member implements Serializable, UserDetails{
 
 	public void setBirth(String birth) {
 		this.birth = birth;
+	}
+
+
+	public String getGithub() {
+		return github;
+	}
+
+
+	public void setGithub(String github) {
+		this.github = github;
 	}
 	
 }

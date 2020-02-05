@@ -130,7 +130,7 @@ public class MemberController {
 		mnr.setCode(0);
 		mnr.setMsg("checkEmail");
 		mnr.setState(CommonResponse.SUCC);
-		if (m != null) {
+		if (m == null) {
 			mnr.setCode(-1);
 			mnr.setMsg("checkEmail");
 			mnr.setState(CommonResponse.FAIL);
@@ -223,8 +223,10 @@ public class MemberController {
     @PostMapping(value = "/signin/github")
     public LoginResponse signinByProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
-		String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
-        Member member = memberService.findByEmail(email);
+		//String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
+        GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
+        String email = githubMember.getLogin();//github로그인시 login이 member.email(pk)가 된다.
+		Member member = memberService.findByEmail(email);
         if(member == null) {
         	return new LoginResponse(1, "social login fail", "fail");
         }
@@ -240,16 +242,19 @@ public class MemberController {
 
     @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/signup/github")
-    public CommonResponse signupProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
-    	logger.info("소셜 가입 - " + accessToken);
-        GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
-        GithubUserEmail githubUserEmail = githubMemberService.getGithubUserPrivateEmail(accessToken);
-        logger.info("소설 가입 - " + githubMember.toString() + " , " + githubUserEmail.getEmail());
-        Member member = memberService.findByEmail(githubUserEmail.getEmail());
-        if (member != null)
+    public CommonResponse signupProvider(@ApiParam(value = "소셜 access_token가 포함된 member", required = true) @RequestBody Member member) {
+    	logger.info("소셜 가입 - " + member.getToken());
+        GithubMember githubMember = githubMemberService.getGithubUser(member.getToken());
+        //GithubUserEmail githubUserEmail = githubMemberService.getGithubUserPrivateEmail(member.getToken());
+        logger.info("소설 가입 - " + githubMember.toString());// " , " + githubUserEmail.getEmail());
+        Member findMember = memberService.findByEmail(githubMember.getLogin());
+        if (findMember != null)
             return new CommonResponse(1, "이미 회원가입이 되어있습니다.", CommonResponse.FAIL);
-        Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
-        memberService.save(newMember);
+        //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
+        member.setEmail(githubMember.getLogin());
+        member.setGithub(githubMember.getLogin());
+        
+        memberService.save(member);
         return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
     }
 	

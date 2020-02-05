@@ -4,6 +4,8 @@ public class AccessToken {
 	private String access_token;
 	private String scope;
 	private String token_type;
+	private String login_access_token;
+	
 	
 	public AccessToken() {
 		super();
@@ -31,6 +33,14 @@ public class AccessToken {
 
 	public void setToken_type(String token_type) {
 		this.token_type = token_type;
+	}
+
+	public String getLogin_access_token() {
+		return login_access_token;
+	}
+
+	public void setLogin_access_token(String login_access_token) {
+		this.login_access_token = login_access_token;
 	}
 	
 }

@@ -8,6 +8,7 @@
     "name": "spring.github.SecretId",
     "type": "java.lang.String",
     "description": "A description for 'spring.github.SecretId'"
+   	
   },
   {
     "name": "spring.github.ClientId",

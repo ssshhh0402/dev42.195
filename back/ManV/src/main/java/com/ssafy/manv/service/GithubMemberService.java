@@ -60,6 +60,7 @@ public class GithubMemberService {
 		member.setName(githubMember.getName());
 		member.setAuth("USER");//0은 일반 사용자
 		member.setPwd(null);
+		member.setGithub(githubMember.getLogin());
 		return member;
 	}
 	
