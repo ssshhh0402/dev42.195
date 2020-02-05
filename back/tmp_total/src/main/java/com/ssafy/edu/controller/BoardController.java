@@ -107,6 +107,7 @@ public class BoardController {
 			File destinationFile;
 			String destinationFileName;
 			String fileUrl = "C:/BoardSwagger/BoardSwagger/src/main/resources/static/image/";
+			//이거 문제 생김
 
 			SimpleDateFormat timeformat = new SimpleDateFormat("yyMMddHHmmss");
 			destinationFileName = timeformat.format(new Date()) + "." + filenameExtension;
@@ -148,13 +149,12 @@ public class BoardController {
 		return new ResponseEntity<BoardNumberResult>(bnr, HttpStatus.OK);
 	}
 
+	
 	@ApiOperation(value = "하나의 게시글을 가져온다", response = Board.class)
 	@RequestMapping(value = "/getBoardByID/{board_id}", method = RequestMethod.GET)
 	public ResponseEntity<Board> getBoardByID(@PathVariable int board_id) throws Exception {
 		System.out.println("================getBoardByID================\t" + new Date());
-
 		Board b = service.getBoardByID(board_id);
-
 		if (b == null) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}

@@ -16,7 +16,7 @@ public class LoginResponse extends CommonResponse {
 		this.accessToken = accessToken;
 	}
 
-	public LoginResponse(int code, String msg) {
-		super(code, msg);
+	public LoginResponse(int code, String msg, String state) {
+		super(code, msg, state);
 	}
 }

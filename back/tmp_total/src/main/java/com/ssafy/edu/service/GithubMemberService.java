@@ -51,6 +51,8 @@ spring.github.SecretId = 5df543f4a47e52eb209c22f9c0b1dec74a5894c5
 		spring.github.url.token = https://github.com/login/oauth/access_token
 			spring.github.url.user = https://api.github.com/user
 	 */
+	
+	
 	public GithubUserEmail[] getGithubUserEmail(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -87,6 +89,7 @@ spring.github.SecretId = 5df543f4a47e52eb209c22f9c0b1dec74a5894c5
 		member.setPwd(null);
 		return member;
 	}
+	
 	
 	public GithubMember getGithubUser(String accessToken) {
 		HttpHeaders headers = new HttpHeaders();

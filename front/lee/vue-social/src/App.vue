@@ -3,6 +3,8 @@
     <button v-on:click="getGithubCode">get data</button>
     <button v-on:click="getGithubAccessToken">get token</button>
     <button v-on:click="postSave">save</button>
+    <button v-on:click="repository">repository</button>
+    <button v-on:click="singup">signup</button>
   </div>
 </template>
 
@@ -26,6 +28,9 @@ export default {
     getGithubCode : function(){
       window.location.href = "https://github.com/login/oauth/authorize?redirect_uri=http://localhost:8080/github&client_id=7038e018caed836c5c38";
       return false;
+    },
+    test: function(){
+      
     },
     getGithubAccessToken : function(){
 
@@ -59,8 +64,46 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-
       return;
+    },
+    singup : function(){
+      axios(
+        {
+          url : "http://localhost:8197/api/signup/github",
+          method : "post",
+          headers:{
+          'Authorization': 'Bearer e28aa7f1395ad455230501f661abbe83d58a6d72'
+          //자신의 토큰
+          }
+      })
+      .then(response => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+    ,
+    repository : function(){
+
+      axios(
+        {
+          //url : "https://api.github.com/repos/eunq2/privateTest/commits",
+          url : "https://api.github.com/repos/eunq2/privateTest",
+          // /repos/{:id}/{:projectName}
+          //https://api.github.com/repos/eunq/devProejct/commits 커밋확인용.
+          headers:{
+          'Authorization': 'Bearer e28aa7f1395ad455230501f661abbe83d58a6d72'
+          //7deb9185f524bdd822ec655de31638f35d4fd4d6
+          //eunq = e28aa7f1395ad455230501f661abbe83d58a6d72
+          //자신의 토큰
+          }
+      })
+      .then(response => {
+        console.log(response);
+      }).catch(err => {
+        console.log(err);
+      })
+
     }
   }
   

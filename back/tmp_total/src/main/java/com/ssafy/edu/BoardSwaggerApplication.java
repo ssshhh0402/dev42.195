@@ -13,6 +13,8 @@ public class BoardSwaggerApplication {
 	}
 	//http://localhost:8197/swagger-ui.html#
 	
+	private int a;
+	
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
