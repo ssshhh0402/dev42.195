@@ -1,5 +1,12 @@
 package com.ssafy.edu.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class Board {
 	private int board_id;
 	private String title;
@@ -14,6 +21,7 @@ public class Board {
 	private String info;
 	private String img;
 	private int people_now;
+	private String hashtag;
 	
 	public Board() {
 		super();
@@ -21,7 +29,8 @@ public class Board {
 	}
 
 	public Board(int board_id, String title, String host, String apply_start, String apply_end, String start,
-			String end, int people_num, int price, String location, String info, String img, int people_now) {
+			String end, int people_num, int price, String location, String info, String img, int people_now,
+			String hashtag) {
 		super();
 		this.board_id = board_id;
 		this.title = title;
@@ -36,6 +45,7 @@ public class Board {
 		this.info = info;
 		this.img = img;
 		this.people_now = people_now;
+		this.hashtag = hashtag;
 	}
 
 	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
@@ -56,7 +66,7 @@ public class Board {
 	}
 
 	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
-			int people_num, int price, String location, String info, int people_now) {
+			int people_num, int price, String location, String info, String img, int people_now, String hashtag) {
 		super();
 		this.title = title;
 		this.host = host;
@@ -68,11 +78,13 @@ public class Board {
 		this.price = price;
 		this.location = location;
 		this.info = info;
+		this.img = img;
 		this.people_now = people_now;
+		this.hashtag = hashtag;
 	}
-	
+
 	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
-			int people_num, int price, String location, String info, String img) {
+			int people_num, int price, String location, String info, String hashtag) {
 		super();
 		this.title = title;
 		this.host = host;
@@ -84,119 +96,73 @@ public class Board {
 		this.price = price;
 		this.location = location;
 		this.info = info;
-		this.img = img;
+		this.hashtag = hashtag;
 	}
 
-	@Override
-	public String toString() {
-		return "Board [board_id=" + board_id + ", title=" + title + ", host=" + host + ", apply_start=" + apply_start
-				+ ", apply_end=" + apply_end + ", start=" + start + ", end=" + end + ", people_num=" + people_num
-				+ ", price=" + price + ", location=" + location + ", info=" + info + ", img=" + img + ", people_now="
-				+ people_now + "]";
-	}
-
-	public int getBoard_id() {
-		return board_id;
-	}
-
-	public void setBoard_id(int board_id) {
-		this.board_id = board_id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
+	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
+			int people_num, int price, String location, String info) {
+		super();
 		this.title = title;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
 		this.host = host;
-	}
-
-	public String getApply_start() {
-		return apply_start;
-	}
-
-	public void setApply_start(String apply_start) {
 		this.apply_start = apply_start;
-	}
-
-	public String getApply_end() {
-		return apply_end;
-	}
-
-	public void setApply_end(String apply_end) {
 		this.apply_end = apply_end;
-	}
-
-	public String getStart() {
-		return start;
-	}
-
-	public void setStart(String start) {
 		this.start = start;
-	}
-
-	public String getEnd() {
-		return end;
-	}
-
-	public void setEnd(String end) {
 		this.end = end;
-	}
-
-	public int getPeople_num() {
-		return people_num;
-	}
-
-	public void setPeople_num(int people_num) {
 		this.people_num = people_num;
-	}
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getInfo() {
-		return info;
-	}
-
-	public void setInfo(String info) {
 		this.info = info;
 	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public int getPeople_now() {
-		return people_now;
-	}
-
-	public void setPeople_now(int people_now) {
-		this.people_now = people_now;
-	}
 	
+//	public Board(int board_id, String title, String host, String apply_start, String apply_end, String start,
+//			String end, int people_num, int price, String location, String info, String img, int people_now) {
+//		super();
+//		this.board_id = board_id;
+//		this.title = title;
+//		this.host = host;
+//		this.apply_start = apply_start;
+//		this.apply_end = apply_end;
+//		this.start = start;
+//		this.end = end;
+//		this.people_num = people_num;
+//		this.price = price;
+//		this.location = location;
+//		this.info = info;
+//		this.img = img;
+//		this.people_now = people_now;
+//	}
+//
+//	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
+//			int people_num, int price, String location, String info, String img, int people_now) {
+//		super();
+//		this.title = title;
+//		this.host = host;
+//		this.apply_start = apply_start;
+//		this.apply_end = apply_end;
+//		this.start = start;
+//		this.end = end;
+//		this.people_num = people_num;
+//		this.price = price;
+//		this.location = location;
+//		this.info = info;
+//		this.img = img;
+//		this.people_now = people_now;
+//	}
+//
+//	public Board(String title, String host, String apply_start, String apply_end, String start, String end,
+//			int people_num, int price, String location, String info, int people_now) {
+//		super();
+//		this.title = title;
+//		this.host = host;
+//		this.apply_start = apply_start;
+//		this.apply_end = apply_end;
+//		this.start = start;
+//		this.end = end;
+//		this.people_num = people_num;
+//		this.price = price;
+//		this.location = location;
+//		this.info = info;
+//		this.people_now = people_now;
+//	}
+
 }

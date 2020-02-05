@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.edu.config.JwtTokenProvider;
-import com.ssafy.edu.dao.GithubMemberMapper;
 import com.ssafy.edu.dto.GithubMember;
 import com.ssafy.edu.dto.MailUtil;
 import com.ssafy.edu.dto.Member;
 import com.ssafy.edu.help.MemberNumberResult;
-import com.ssafy.edu.service.IJwtService;
+import com.ssafy.edu.response.CommonResponse;
+import com.ssafy.edu.response.LoginResponse;
+import com.ssafy.edu.response.SingleResult;
+import com.ssafy.edu.service.GithubMemberService;
 import com.ssafy.edu.service.IMemberService;
-import com.ssafy.response.LoginResponse;
-import com.ssafy.response.SingleResult;
+import com.ssafy.edu.service.JwtTokenService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,10 +42,10 @@ public class MemberController {
 	private IMemberService service;
 	
 	@Autowired
-	private JwtTokenProvider jwtTokenProvider;
+	private JwtTokenService jwtTokenService;
 	
 	@Autowired
-	private com.ssafy.edu.service.GithubMemberService githubMemberService;
+	private GithubMemberService githubMemberService;
 
 	@ApiOperation(value = "회원가입", notes = "회원가입")
 	@RequestMapping(value = "/addMember", method = RequestMethod.POST)
@@ -150,7 +149,7 @@ public class MemberController {
 			return new ResponseEntity<MemberNumberResult>(mnr, HttpStatus.OK);
 		}
 		
-		String token = jwtTokenProvider.createToken(id, m.getRole());
+		String token = jwtTokenService.createToken(id, m.getAuth());
 		System.out.println(token + "======" + new Date());
 
 		mnr.setNumber(0);
@@ -167,7 +166,7 @@ public class MemberController {
 		System.out.println("token : " + accesstoken);
 		MemberNumberResult mnr = new MemberNumberResult();
 		
-		boolean chk = jwtTokenProvider.validateToken(accesstoken);
+		boolean chk = jwtTokenService.validateToken(accesstoken);
 		
 		if(!chk) {
 			mnr.setNumber(-1);
@@ -199,7 +198,7 @@ public class MemberController {
 		}
 		String keyCode = MailUtil.createKey();
 		
-		String subject = "[HELLO!] 비밀번호 찾기 인증코드 안내";
+		String subject = "[DEV 42.195] 비밀번호 찾기 인증코드 안내";
 		String msg = "";
 		msg += "<div align='center' style='border:1px solid black; font-family:verdana'>";
 		msg += "<h3 style='color:blue;'>비밀번호 찾기 인증코드입니다.</h3>";
@@ -221,31 +220,40 @@ public class MemberController {
     @PostMapping(value = "/signin/github")
     public LoginResponse signinByProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
 
-        GithubMember githubUser = githubMemberService.getGithubUser(accessToken);
-        GithubMember member = githubMemberService.findGithubMemberById(githubUser.getId());
+		//String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
+        GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
+        String email = githubMember.getLogin();//github로그인시 login이 member.email(pk)가 된다.
+		Member member = service.getMemberByID(email);
         if(member == null) {
-        	return new LoginResponse(1, "social login fail");
+        	return new LoginResponse(1, "social login fail", "fail");
         }
-        LoginResponse res = new LoginResponse(0, "social login success");
-        res.setAccessToken(jwtTokenProvider.createToken(String.valueOf(githubUser.getId()), "USER"));
+        
+        //member 에 있는 token -> accessToken으로 업데이트 해야된다.
+        member.setToken(accessToken);
+        service.changeMemberInfo(member);
+        
+        LoginResponse res = new LoginResponse(0, "social login success", CommonResponse.SUCC);
+        res.setAccessToken(jwtTokenService.createToken(member.getEmail(), member.getAuth()));
         return res;
     }
 
-    @ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
+
+	@ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/signup/github")
-    public SingleResult<GithubMember> signupProvider(@ApiParam(value = "소셜 access_token", required = true) @RequestParam String accessToken) {
-
-    	logger.info("소셜 가입 - " + accessToken);
-        GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
-        logger.info("소설 가입 - " + githubMember.toString());
-        GithubMember member = githubMemberService.findGithubMemberById(githubMember.getId());
-        if (member != null)
-            return new SingleResult<GithubMember>(1, "이미 회원가입이 되어있습니다.");
-
-        githubMemberService.save(githubMember);
-        SingleResult<GithubMember> res =  new SingleResult<>(0, "social signup success");
-        res.setData(githubMember);
-        return res;
+    public CommonResponse signupProvider(@ApiParam(value = "소셜 access_token가 포함된 member", required = true) @RequestBody Member member) {
+    	logger.info("소셜 가입 - " + member.getToken());
+        GithubMember githubMember = githubMemberService.getGithubUser(member.getToken());
+        //GithubUserEmail githubUserEmail = githubMemberService.getGithubUserPrivateEmail(member.getToken());
+        logger.info("소설 가입 - " + githubMember.toString());// " , " + githubUserEmail.getEmail());
+        Member findMember = service.getMemberByID(githubMember.getLogin());
+        if (findMember != null)
+            return new CommonResponse(1, "이미 회원가입이 되어있습니다.", CommonResponse.FAIL);
+        //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
+        member.setEmail(githubMember.getLogin());
+        member.setGithub(githubMember.getLogin());
+        
+        service.changeMemberInfo(member);
+        return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
     }
 	
 }
