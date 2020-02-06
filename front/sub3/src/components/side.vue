@@ -14,7 +14,7 @@
                 </router-link> 
             </v-toolbar-title>
             <v-container class="d-flex justify-center col-6 offset-1" style="min-height:0" >
-                <v-text-field solo rounded label='검색' hide-details="auto"  style="border: yellow solid 2.5px;"></v-text-field>
+                <v-text-field solo rounded label='검색' hide-details="auto" style="border: yellow solid 2.5px;"></v-text-field>
             </v-container>
             <v-toolbar-items class="col-4 justify-start" >
                 <v-btn
@@ -36,19 +36,24 @@
 <script>
 export default {
     name : 'side',
+    props:{
+        isLogin:Boolean,
+    },
     data(){
         return {
             menuItems:[
                 {title: '신청하기', icon: 'note_add'},
                 {title:'만들기', icon: 'public'},
-                {title: '내 정보', icon: 'person'}
+                {title: '로그인', icon: 'person'}
             ],
+            test:"",
             onLoginModal:false,
+            token:"",
         }
     },
     methods: {
         bannerClick(data){
-            if(data==='내 정보'){
+            if(data==='로그인'){
                 if(sessionStorage.token==""||sessionStorage.token==undefined||sessionStorage.token==null){
                     console.log("?>>>>>>>");
                     this.$emit('onLogin', true)
@@ -60,7 +65,9 @@ export default {
                 
             this.$router.push('registhackaton');
             }else if(data==='신청하기'){
-                this.$router.push('join');
+                this.$router.push('/join')
+            }else if(data==='내 정보'){
+                alert('성공!#@#!@#!#@!');
             }
         }
     },

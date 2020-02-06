@@ -48,7 +48,7 @@ export default {
     },
     methods:{
         test(){
-            http.get('/getBoard')
+            http.get('./getBoard')
             .then(message =>{
                 this.contents=message.data;
                 console.log(this.contents)

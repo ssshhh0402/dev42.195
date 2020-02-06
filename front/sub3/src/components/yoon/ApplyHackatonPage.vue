@@ -11,7 +11,7 @@
                     </v-col>
                 -->
                 <v-col cols="12">
-                    <v-img :src="contents.img_url"></v-img>
+                    <v-img :src="contents.img"></v-img>
                 </v-col>
                 <v-col cols="12">
                     인원

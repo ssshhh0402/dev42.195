@@ -76,6 +76,7 @@ export default {
         }
     },
     mounted(){
+        this.setting()
     },
     methods:{
         setting(){
