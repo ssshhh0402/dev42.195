@@ -264,7 +264,6 @@ public class MemberController {
         //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         member.setEmail(githubMember.getLogin());
         member.setGithub(githubMember.getLogin());
-        member.setNotNullAuth();
         
         memberRepo.save(member);
         

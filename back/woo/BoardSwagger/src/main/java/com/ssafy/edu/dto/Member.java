@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.Persistent;
 
 @Entity
 @Table( name = "cmember")
@@ -56,11 +58,10 @@ public class Member implements Serializable{
 				+ ", job=" + job + ", token=" + token + ", info=" + info + ", birth=" + birth + "]";
 	}
 	
-	public void setNotNullAuth() {
-		if(auth == null) {
-			auth = "USER";
-		}
-	}
+	@PrePersist
+    public void prePersist() {
+        this.auth = this.auth == null ? "USER" : this.auth;
+    }
 
 	public String getEmail() {
 		return email;
