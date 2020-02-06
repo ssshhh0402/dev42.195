@@ -90,12 +90,16 @@ String ns="ssafy.board.";
 		sqlSession.insert(ns + "addApplyBoard", ab);
 	}
 
-	public List<Board> searchBoard(String keyword) {
-		return sqlSession.selectList(ns + "searchBoard", keyword);
+	public List<Board> searchBoardByTitle(String keyword) {
+		return sqlSession.selectList(ns + "searchBoardByTitle", keyword);
 	}
 
 	public void addBoard(Board dto) {
 		sqlSession.insert(ns + "addBoard", dto);
+	}
+
+	public List<Board> searchBoardByTag(String hashtag) {
+		return sqlSession.selectList(ns + "searchBoardByTag", hashtag);
 	}
 	
 //	public Member getMemberByID(String email) { 

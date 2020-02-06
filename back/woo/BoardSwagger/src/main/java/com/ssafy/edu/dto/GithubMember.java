@@ -13,7 +13,14 @@ public class GithubMember {
 	private String avatar_url;
 	private String url;
 	private String html_url;
+	private String name;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getLogin() {
 		return login;
 	}
@@ -50,13 +57,10 @@ public class GithubMember {
 	public void setHtml_url(String html_url) {
 		this.html_url = html_url;
 	}
+	
 	@Override
 	public String toString() {
 		return "GithubMember [id=" + id + ", login=" + login + ", node_id=" + node_id + ", avatar_url=" + avatar_url
 				+ ", url=" + url + ", html_url=" + html_url + "]";
 	}
-	
-	
-	
-	
 }
