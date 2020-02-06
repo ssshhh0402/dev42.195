@@ -44,9 +44,10 @@
   <v-container height="10vw" style="width:75%">
     <v-flex>
       <v-layout>
-        <a :href="hackatonData.img" target="__blank" style="text-decoration:none;margin-left:auto">
+        <a href="#none" target="__blank" style="text-decoration:none;margin-left:auto">
           <v-btn
           prima
+          @click="btnApply()"
           color="orange" 
           style=" height: 3rem; width: 15rem; padding: 0; font-size: 2rem; font-weight: bolder">신청하기</v-btn></a>
       </v-layout>
@@ -119,7 +120,13 @@ export default {
     },
     mounted(){
       this.hackatonData = JSON.parse(sessionStorage.getItem('contents'))
+    },
+    methods:{
+      btnApply(){
+            this.$router.push('applyhackatonpage');
+        },
     }
+
    
 }
 </script>
