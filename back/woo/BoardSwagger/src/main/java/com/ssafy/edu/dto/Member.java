@@ -2,9 +2,17 @@ package com.ssafy.edu.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table( name = "cmember")
 public class Member implements Serializable{
 	
+	@Id
 	private String email;
+	
 	private String pwd;
 	private String phone;
 	private String name;
@@ -20,7 +28,6 @@ public class Member implements Serializable{
 	
 	public Member() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Member(String email, String pwd, String phone, String name, String auth, String job, String token,

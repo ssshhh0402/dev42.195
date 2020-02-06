@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.edu.dao.MemberRepo;
 import com.ssafy.edu.dto.GithubMember;
 import com.ssafy.edu.dto.MailUtil;
 import com.ssafy.edu.dto.Member;
 import com.ssafy.edu.help.MemberNumberResult;
 import com.ssafy.edu.response.CommonResponse;
 import com.ssafy.edu.response.LoginResponse;
-import com.ssafy.edu.response.SingleResult;
 import com.ssafy.edu.response.UserInfoRespose;
 import com.ssafy.edu.service.GithubMemberService;
 import com.ssafy.edu.service.IMemberService;
@@ -50,6 +51,9 @@ public class MemberController {
 	@Autowired
 	private GithubMemberService githubMemberService;
 
+	@Autowired
+	private MemberRepo memberRepo;
+	
 	@ApiOperation(value = "회원가입", notes = "회원가입")
 	@RequestMapping(value = "/addMember", method = RequestMethod.POST)
 	public ResponseEntity<MemberNumberResult> addMember(@RequestBody Member dto) throws Exception {
@@ -153,6 +157,10 @@ public class MemberController {
 		}
 		
 		String token = jwtTokenService.createToken(id, m.getAuth());
+		
+		m.setToken(token);
+		memberRepo.save(m);
+		
 		System.out.println(token + "======" + new Date());
 
 		mnr.setNumber(0);
@@ -234,7 +242,8 @@ public class MemberController {
         
         //member 에 있는 token -> accessToken으로 업데이트 해야된다.
         member.setToken(accessToken);
-        service.changeMemberInfo(member);
+        memberRepo.save(member);
+//        service.changeMemberInfo(member);
         
         LoginResponse res = new LoginResponse(0, "social login success", CommonResponse.SUCC);
         res.setAccessToken(jwtTokenService.createToken(member.getEmail(), member.getAuth()));
@@ -255,13 +264,16 @@ public class MemberController {
         //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         member.setEmail(githubMember.getLogin());
         member.setGithub(githubMember.getLogin());
-        service.addMember(member);
+        memberRepo.save(member);
+        
+        //service.addMember(member);
         //service.changeMemberInfo(member);
+        
         return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
     }
 	
 	@ApiOperation(value = "login_access_token으로 유저정보 알기", notes = "/api/user 로 회원정보를 알 수 있다.")
-    @PostMapping(value = "/user")
+    @GetMapping(value = "/user")
     public ResponseEntity<UserInfoRespose> getUserByToken(@ApiParam(value = "loing_access_token", required = true) @RequestHeader("x-access-token") String accessToken) {
 		logger.info("----getUserByToken----");
     	if(accessToken == null) {
@@ -272,7 +284,7 @@ public class MemberController {
     	}
 		String email = jwtTokenService.getUserPk(accessToken);
 		logger.info("email - " + email);
-        Member member = service.getMemberByID(email);
+        Member member = memberRepo.findByEmail(email).orElse(null);
         logger.info("member - " + member.toString());
         member.setPwd("");
         UserInfoRespose res = new UserInfoRespose(0, "UserInfo 전달", CommonResponse.SUCC, member);
