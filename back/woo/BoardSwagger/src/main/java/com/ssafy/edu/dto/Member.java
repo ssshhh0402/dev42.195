@@ -2,13 +2,27 @@ package com.ssafy.edu.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
+
+@Entity
+@Table( name = "cmember")
 public class Member implements Serializable{
 	
+	@Id
 	private String email;
+	
 	private String pwd;
 	private String phone;
 	private String name;
+	
+	@ColumnDefault("USER")
 	private String auth;
+	
 	private String job;
 	private String token;
 	private String info;
@@ -20,7 +34,6 @@ public class Member implements Serializable{
 	
 	public Member() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Member(String email, String pwd, String phone, String name, String auth, String job, String token,
@@ -43,6 +56,11 @@ public class Member implements Serializable{
 		return "Member [email=" + email + ", pwd=" + pwd + ", phone=" + phone + ", name=" + name + ", auth=" + auth
 				+ ", job=" + job + ", token=" + token + ", info=" + info + ", birth=" + birth + "]";
 	}
+	
+	@PrePersist
+    public void prePersist() {
+        this.auth = this.auth == null ? "USER" : this.auth;
+    }
 
 	public String getEmail() {
 		return email;
