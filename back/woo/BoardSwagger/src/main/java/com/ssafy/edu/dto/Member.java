@@ -1,15 +1,8 @@
 package com.ssafy.edu.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-
-public class Member implements Serializable, UserDetails{
+public class Member implements Serializable{
 	
 	private String email;
 	private String pwd;
@@ -43,43 +36,6 @@ public class Member implements Serializable, UserDetails{
 		this.info = info;
 		this.birth = birth;
 		this.github = github;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		ArrayList<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
-        auth.add(new SimpleGrantedAuthority(this.auth));
-        return auth;
-	}
-
-	@Override
-	public String getPassword() {
-		return this.pwd;
-	}
-
-	@Override
-	public String getUsername() {
-		return this.email;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
 	}
 
 	@Override

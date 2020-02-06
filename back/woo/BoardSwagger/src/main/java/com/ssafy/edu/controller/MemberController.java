@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @RequestMapping("/api")
 @Api(value = "MemberController", description = "회원")
+@CrossOrigin("*")
 public class MemberController {
 
 	public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -223,6 +225,7 @@ public class MemberController {
 		//String email  = githubMemberService.getGithubUserPrivateEmail(accessToken).getEmail();
         GithubMember githubMember = githubMemberService.getGithubUser(accessToken);
         String email = githubMember.getLogin();//github로그인시 login이 member.email(pk)가 된다.
+        
 		Member member = service.getMemberByID(email);
         if(member == null) {
         	return new LoginResponse(1, "social login fail", "fail");
@@ -241,7 +244,7 @@ public class MemberController {
 	@ApiOperation(value = "소셜 계정 가입", notes = "소셜 계정 회원가입을 한다.")
     @PostMapping(value = "/signup/github")
     public CommonResponse signupProvider(@ApiParam(value = "소셜 access_token가 포함된 member", required = true) @RequestBody Member member) {
-    	logger.info("소셜 가입 - " + member.getToken());
+    	logger.info("소셜 가입 - " + member.toString());
         GithubMember githubMember = githubMemberService.getGithubUser(member.getToken());
         //GithubUserEmail githubUserEmail = githubMemberService.getGithubUserPrivateEmail(member.getToken());
         logger.info("소설 가입 - " + githubMember.toString());// " , " + githubUserEmail.getEmail());
@@ -251,8 +254,8 @@ public class MemberController {
         //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         member.setEmail(githubMember.getLogin());
         member.setGithub(githubMember.getLogin());
-        
-        service.changeMemberInfo(member);
+        service.addMember(member);
+        //service.changeMemberInfo(member);
         return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
     }
 	

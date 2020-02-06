@@ -8,15 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -33,8 +26,8 @@ public class JwtTokenService {
 	
 	private long tokenValidTime = 1000L*60*60*2;
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
+//	@Autowired
+//	private UserDetailsService userDetailsService;
 	
 	private Logger logger = LoggerFactory.getLogger(JwtTokenService.class);
 
@@ -56,10 +49,10 @@ public class JwtTokenService {
 				
 	}
 	
-	public Authentication getAuthentication(String token) {
-		UserDetails userDetails = userDetailsService.loadUserByUsername(getUserPk(token));
-		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-	}
+//	public Authentication getAuthentication(String token) {
+//		UserDetails userDetails = userDetailsService.loadUserByUsername(getUserPk(token));
+//		return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+//	}
 	
 	// Jwt 토큰에서 회원 구별 정보 추출
     public String getUserPk(String token) {
