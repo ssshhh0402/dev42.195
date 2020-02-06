@@ -69,19 +69,7 @@ public class BoardController {
 		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "게시글 추가", notes = "입력형식 : \n {\r\n" + 
-			"  \"apply_end\": \"string(yyyyMMddhhmm)\",\r\n" + 
-			"  \"apply_start\": \"string(yyyyMMddhhmm)\",\r\n" + 
-			"  \"end\": \"string(yyyyMMddhhmm)\",\r\n" + 
-			"  \"host\": \"string\",\r\n" + 
-			"  \"info\": \"string\",\r\n" + 
-			"  \"location\": \"string\",\r\n" + 
-			"  \"people_now\": 0,\r\n" + 
-			"  \"people_num\": 0,\r\n" + 
-			"  \"price\": 0,\r\n" + 
-			"  \"start\": \"string(yyyyMMddhhmm)\",\r\n" + 
-			"  \"title\": \"string\"\r\n" + 
-			"}", response = BoardNumberResult.class)
+	@ApiOperation(value = "게시글 추가", response = BoardNumberResult.class)
 	@RequestMapping(value = "/addBoard", method = RequestMethod.POST)
 	public ResponseEntity<BoardNumberResult> addBoard(@RequestParam(value = "dto_str", required = true) String dto_str,
 													  @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
@@ -161,14 +149,8 @@ public class BoardController {
 		return new ResponseEntity<Board>(b, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "게시글 수정", notes = "dto_str의 경우 모든 정보를 담아 보낼것 ,이미지는 수정시에만 담아 보낼것\n"
-			+ "입력 형식 : \n {\"board_id\" : int,\r\n" + " \"title\": \"String\",\r\n" + " \"host\": \"String\",\r\n"
-			+ " \"apply_start\": \"String(yyyyMMddhhmm)\",\r\n" + " \"apply_end\": \"String(yyyyMMddhhmm)\",\r\n"
-			+ " \"start\": \"String(yyyyMMddhhmm)\",\r\n" + " \"end\": \"String(yyyyMMddhhmm)\",\r\n"
-			+ " \"people_num\": int,\r\n" + " \"price\": int,\r\n" + " \"location\": \"String\",\r\n"
-			+ " \"info\": \"String\",\r\n" + " \"people_now\": int,\r\n" + " \"img\":\"String\"\r\n"
-			+ "}", response = BoardNumberResult.class)
-	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
+	@ApiOperation(value = "게시글 수정", response = BoardNumberResult.class)
+	@RequestMapping(value = "/updateBoard", method = RequestMethod.PUT)
 	public ResponseEntity<BoardNumberResult> updateBoard(
 			@RequestParam(value = "dto_str", required = true) String dto_str,
 			@RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
@@ -228,7 +210,7 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "게시글 삭제", notes = "board_id(int)만 담아 보내면됨(수정해야될듯?)", response = BoardNumberResult.class)
-	@RequestMapping(value = "/deleteBoard", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteBoard", method = RequestMethod.DELETE)
 	public ResponseEntity<BoardNumberResult> deleteBoard(@RequestBody Post_board dto) throws Exception {
 		System.out.println("================deleteBoard================\t" + new Date());
 
@@ -299,7 +281,7 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "댓글 삭제", response = BoardNumberResult.class)
-	@RequestMapping(value = "/deleteComment/{cnum}", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteComment/{cnum}", method = RequestMethod.DELETE)
 	public ResponseEntity<BoardNumberResult> deleteComment(@PathVariable int cnum) throws Exception {
 		System.out.println("================deleteComment================\t" + new Date());
 
@@ -360,14 +342,28 @@ public class BoardController {
 		return new ResponseEntity<BoardNumberResult>(bnr, HttpStatus.OK);
 	}
 
-	@ApiOperation(value = "게시글 검색", response = List.class)
-	@RequestMapping(value = "/searchBoard/{keyword}", method = RequestMethod.GET)
-	public ResponseEntity<List<Board>> searchBoard(@PathVariable String keyword) throws Exception {
+	@ApiOperation(value = "게시글 검색(제목)", response = List.class)
+	@RequestMapping(value = "/searchBoardByTitle/{keyword}", method = RequestMethod.GET)
+	public ResponseEntity<List<Board>> searchBoardByTitle(@PathVariable String keyword) throws Exception {
 
-		System.out.println("================searchBoard================\t" + new Date());
+		System.out.println("================searchBoardByTitle================\t" + new Date());
 
-		List<Board> list = service.searchBoard(keyword);
+		List<Board> list = service.searchBoardByTitle(keyword);
 
+		if (list.isEmpty()) {
+			return new ResponseEntity(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+	}
+	
+	@ApiOperation(value = "게시글 검색(hashtag)", response = List.class)
+	@RequestMapping(value = "/searchBoardByTag/{hashtag}", method = RequestMethod.GET)
+	public ResponseEntity<List<Board>> searchBoardByTag(@PathVariable String hashtag) throws Exception {
+		
+		System.out.println("================searchBoardByTag================\t" + new Date());
+		
+		List<Board> list = service.searchBoardByTag(hashtag);
+		
 		if (list.isEmpty()) {
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}

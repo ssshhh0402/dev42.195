@@ -106,13 +106,18 @@ public class BoardServiceImple implements IBoardService{
 	}
 
 	@Override
-	public List<Board> searchBoard(String keyword) {
-		return dao.searchBoard(keyword);
+	public List<Board> searchBoardByTitle(String keyword) {
+		return dao.searchBoardByTitle(keyword);
 	}
 
 	@Override
 	public void addBoard(Board dto) {
 		dao.addBoard(dto);
+	}
+
+	@Override
+	public List<Board> searchBoardByTag(String hashtag) {
+		return dao.searchBoardByTag(hashtag);
 	}
 
 }
