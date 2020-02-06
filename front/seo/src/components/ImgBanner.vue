@@ -1,16 +1,17 @@
 <template>
-  <div background="black" style="width:100%">
-    <v-img :src="imgSrc"
-           aspect-ratio="3.5">
+  <div>
+    <v-img src="https://www.onlygfx.com/wp-content/uploads/2017/07/yellow-watercolor-brush-stroke-2.png"
+           aspect-ratio="3">
       <v-layout align-center justify-center row fill-height>
         <v-flex text-xs-center>
           <span class="text-shadow display-2 font-weight-light">
-            <slot name="text"/>
+             <div style="line-height:1.2em;font-size:10vw;font-weight:bold;font-style:italic" class="text-center">DEV 42.195</div>
           </span>
         </v-flex>
       </v-layout>
     </v-img>
   </div>
+    
 </template>
 
 
@@ -19,10 +20,7 @@
 
 export default {
 	name: 'ImgBanner',
-	props: {
-		imgSrc: {type: String},
-		text: {type: String}
-	},
+
 	methods: {
 	},
 }

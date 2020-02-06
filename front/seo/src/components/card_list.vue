@@ -1,15 +1,25 @@
 <template>
-    <v-layout mt-5 wrap>
-        <v-flex xs4 v-for="i in contents.length > limits? limits : contents.length" :key="i.key">
-            <cards class="ma-3"
-                :content="contents[i-1]">
-            </cards>
-        </v-flex>
-    </v-layout>
+    <v-row>
+        <v-col
+            cols="12"
+            style="height:5vw; text-align:center">
+            <div><h2 class="headline mb-3" style="font-weight:bold;font-style:italic">이거 봤어?</h2></div>
+        </v-col>
+        <v-col
+            cols="12">
+            <v-layout mt-5 wrap>
+                <v-flex xs12 lg4 v-for="i in contents.length > limits? limits : contents.length" :key="i.key">
+                    <cards class="ma-3"
+                        :content="contents[i-1]">
+                    </cards>
+                </v-flex>
+            </v-layout>
+        </v-col>
+    </v-row>
 </template>
 <script>
 import cards from './cards'
-import http from '../http-common'
+// import http from '../http-common'
 export default {
     name:'card_list',
     components:{
@@ -34,16 +44,16 @@ export default {
 
     },
      mounted(){
-        this.test()
+        // this.test()
     },
     methods:{
-        test(){
-            http.get('./getBoard')
-            .then(message =>{
-                this.contents=message.data;
-                console.log(this.contents)
-            })
-        }
+        // test(){
+        //     http.get('./getBoard')
+        //     .then(message =>{
+        //         this.contents=message.data;
+        //         console.log(this.contents)
+        //     })
+        // }
     },
    
 }
