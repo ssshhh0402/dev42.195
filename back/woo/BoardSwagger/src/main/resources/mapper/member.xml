@@ -10,15 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="addMember" parameterType="com.ssafy.edu.dto.Member">
 		INSERT INTO CMEMBER(EMAIL, PWD, PHONE, NAME, JOB, INFO, BIRTH) VALUES(#{email}, #{pwd}, #{phone}, #{name}, #{job}, #{info}, #{birth})
-	</insert>
-	
-	<delete id="deleteMember" parameterType="java.lang.String">
-		DELETE FROM CMEMBER WHERE EMAIL = #{email}
-	</delete>
+	</insert> 
 	
 	<update id="changeMemberInfo" parameterType="com.ssafy.edu.dto.Member">
 		UPDATE CMEMBER SET PWD = #{pwd}, PHONE = #{phone}, NAME = #{name}, JOB = #{job}, INFO = #{info} WHERE EMAIL = #{email}
 	</update>
+	
+	<delete id="deleteMember" parameterType="java.lang.String">
+		DELETE FROM CMEMBER WHERE EMAIL = #{email}
+	</delete>
 	
 	<update id="changePwd" parameterType="com.ssafy.edu.dto.Member">
 		UPDATE CMEMBER SET PWD = #{pwd} WHERE EMAIL = #{email}

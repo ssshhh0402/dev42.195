@@ -45,6 +45,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/api")
 @Api(value = "BoardController", description = "게시글")
+@CrossOrigin("*")
 public class BoardController {
 
 	public static final Logger logger = LoggerFactory.getLogger(BoardController.class);
