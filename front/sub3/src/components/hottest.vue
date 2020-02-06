@@ -47,6 +47,7 @@ export default {
              http.get('./getBoard')
             .then(message =>{
                 this.contents=message.data;
+                console.log(this.contents)
             })
     }
 }

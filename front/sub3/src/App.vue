@@ -4,10 +4,10 @@
       <v-content>
       <ImgBanner/>
       <router-view/>
-      <Footer/>
+      
       <RegisterBefore :dialog="onLoginModal" @onLogin="onLogin_2"/>
     </v-content>
-
+<Footer/>
   </v-app>
 </template>
 

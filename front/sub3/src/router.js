@@ -59,10 +59,6 @@ export default new Router({
             component : PageNotFound
         },
         {
-            path:'/',
-            component : PageNotFound
-        },
-        {
             path :'/applyhackatonpage',
             name : 'applyhackatonpage',
             component : ApplyHackatonPage
