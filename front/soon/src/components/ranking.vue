@@ -1,38 +1,4 @@
 <template>
-    <!-- <v-row>
-     <v-row style='text-align:center;align-content:center;max-height:35vw'>
-            <h4>해커톤 랭킹</h4> -->
-     <!-- <v-layout style="height:15vw; width: 60%; display:block; overflow:scroll; overflow-x:hidden; border:thin inset #009688; margin:auto">
-        <div v-for="ranker in rankers" :key="ranker.key" style="text-align:center">
-            <v-divider ></v-divider>
-                {{ranker.name}}
-        <v-divider></v-divider>
-                    </div>
-    </v-layout> -->
-     <!-- </v-row>
-     <v-row>
-      <v-card
-            tile
-            outlined
-            height="15vw"
-            >
-            <v-list 
-                shaped
-                style="margin:0">
-                <v-list-item-group  color='primary'>
-                    <v-list-item
-                    v-for="(ranker,i) in rankers"
-                    :key="i"
-                    >
-                    <v-list-item-content>
-                        <v-list-item-title v-text="ranker.name"></v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list-item-group>
-        </v-list>
-        </v-card>
-    </v-row>
-</v-row> -->
     <div>
         <v-container style="padding:0; margin:0; max-width:35vw; width:100% !important">
             <v-row no-gutters>
