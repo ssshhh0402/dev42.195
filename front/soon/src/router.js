@@ -9,6 +9,7 @@ import RegistHackaton from './components/yoon/RegistHacktonPage.vue';
 import RegistMemberPage from './components/yoon/RegistMemberPage.vue';
 import PageNotFound from  './components/yoon/PageNotFound.vue';
 import ApplyHackatonPage from './components/yoon/ApplyHackatonPage.vue';
+import TestPage from './views/TestPage.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -66,6 +67,11 @@ export default new Router({
             path :'/applyhackatonpage',
             name : 'applyhackatonpage',
             component : ApplyHackatonPage
+        },
+        {
+            path:'/test',
+            name:'testPage',
+            component : TestPage
         }
     ]
 })

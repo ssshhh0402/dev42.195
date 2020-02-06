@@ -6,7 +6,7 @@
     :src="content.i_url" width="80%" style="margin:auto;" aspect-ratio="0.65"/>
     </v-card> -->
     <v-card
-        style="background:black">
+        style="background:#424242">
         <v-row>
             <v-col
             cols="5" style="margin:auto">
