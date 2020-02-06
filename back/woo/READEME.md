@@ -8,7 +8,7 @@ http://192.168.31.122:8197/api
 
 
 
-### 회원관리 :person_with_pouting_face:
+### 회원관리 :person_with_pouting_face: - 업데이트 예정
 
 - ##### addMember 
 
