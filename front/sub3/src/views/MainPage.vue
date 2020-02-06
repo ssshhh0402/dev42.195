@@ -3,7 +3,6 @@
   <v-container fill style="width:100%;align-items:center; padding:0;">
     <v-row>
       
-      <!-- <RegisterBefore :dialog="onLoginModal" @onLogin="onLogin_2"/> -->
     <v-col
       cols="12" style="background:#FED64D;padding:0">
       <card_list> </card_list>
@@ -20,7 +19,6 @@
       cols="12" style="margin-top:0px">
       </v-col>
       <card_list> </card_list>
-      <!-- <hottest/> -->
       <register-github-member :dialog="ifLogin" @onLogin="onLogin_2"></register-github-member>
     </v-row>
   </v-container>
@@ -91,3 +89,4 @@ export default {
   }
 }
 </script>
+
