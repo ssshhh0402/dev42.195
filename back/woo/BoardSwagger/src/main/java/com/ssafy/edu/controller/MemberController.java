@@ -24,6 +24,7 @@ import com.ssafy.edu.help.MemberNumberResult;
 import com.ssafy.edu.response.CommonResponse;
 import com.ssafy.edu.response.LoginResponse;
 import com.ssafy.edu.response.SingleResult;
+import com.ssafy.edu.response.UserInfoRespose;
 import com.ssafy.edu.service.GithubMemberService;
 import com.ssafy.edu.service.IMemberService;
 import com.ssafy.edu.service.JwtTokenService;
@@ -257,6 +258,25 @@ public class MemberController {
         service.addMember(member);
         //service.changeMemberInfo(member);
         return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
+    }
+	
+	@ApiOperation(value = "login_access_token으로 유저정보 알기", notes = "/api/user 로 회원정보를 알 수 있다.")
+    @PostMapping(value = "/user")
+    public ResponseEntity<UserInfoRespose> getUserByToken(@ApiParam(value = "loing_access_token", required = true) @RequestHeader("x-access-token") String accessToken) {
+		logger.info("----getUserByToken----");
+    	if(accessToken == null) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+    	if(!jwtTokenService.validateToken(accessToken)) {
+    		return new ResponseEntity<>(new UserInfoRespose(1, "Token이 유효하지 않습니다.",   CommonResponse.FAIL, null),HttpStatus.BAD_REQUEST);
+    	}
+		String email = jwtTokenService.getUserPk(accessToken);
+		logger.info("email - " + email);
+        Member member = service.getMemberByID(email);
+        logger.info("member - " + member.toString());
+        member.setPwd("");
+        UserInfoRespose res = new UserInfoRespose(0, "UserInfo 전달", CommonResponse.SUCC, member);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 	
 }
