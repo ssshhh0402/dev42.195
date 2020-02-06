@@ -19,7 +19,7 @@
 </template>
 <script>
 import cards from './cards'
-// import http from '../http-common'
+import http from '../http-common'
 export default {
     name:'card_list',
     components:{
@@ -44,16 +44,16 @@ export default {
 
     },
      mounted(){
-        // this.test()
+        this.test()
     },
     methods:{
-        // test(){
-        //     http.get('./getBoard')
-        //     .then(message =>{
-        //         this.contents=message.data;
-        //         console.log(this.contents)
-        //     })
-        // }
+        test(){
+            http.get('./getBoard')
+            .then(message =>{
+                this.contents=message.data;
+                console.log(this.contents)
+            })
+        }
     },
    
 }
