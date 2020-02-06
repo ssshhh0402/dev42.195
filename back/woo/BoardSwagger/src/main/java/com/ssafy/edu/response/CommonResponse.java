@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.ToString;
 
 public class CommonResponse implements Serializable {
-	private int code;
-	private String msg;
-	private String state;
+	protected int code;
+	protected String msg;
+	protected String state;
 	final static public String SUCC = "succ";
 	final static public String FAIL = "fail";
 	 

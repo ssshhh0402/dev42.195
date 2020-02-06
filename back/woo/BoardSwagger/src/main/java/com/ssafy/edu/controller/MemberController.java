@@ -1,6 +1,8 @@
 package com.ssafy.edu.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.edu.dao.MemberRepo;
 import com.ssafy.edu.dto.GithubMember;
 import com.ssafy.edu.dto.MailUtil;
 import com.ssafy.edu.dto.Member;
@@ -24,6 +28,7 @@ import com.ssafy.edu.help.MemberNumberResult;
 import com.ssafy.edu.response.CommonResponse;
 import com.ssafy.edu.response.LoginResponse;
 import com.ssafy.edu.response.SingleResult;
+import com.ssafy.edu.response.UserInfoRespose;
 import com.ssafy.edu.service.GithubMemberService;
 import com.ssafy.edu.service.IMemberService;
 import com.ssafy.edu.service.JwtTokenService;
@@ -49,14 +54,19 @@ public class MemberController {
 	@Autowired
 	private GithubMemberService githubMemberService;
 
+	@Autowired
+	private MemberRepo memberRepo;
+	
 	@ApiOperation(value = "회원가입", notes = "회원가입")
 	@RequestMapping(value = "/addMember", method = RequestMethod.POST)
 	public ResponseEntity<MemberNumberResult> addMember(@RequestBody Member dto) throws Exception {
-		System.out.println("================addMember================\t" + new Date());
-		System.out.println(dto.toString());
+		logger.info("---- addMember -----" + new Date());
+		logger.info(dto.toString());
 		
 //		System.out.println(dto);
-		Member m = service.getMemberByID(dto.getEmail());
+		//Member m = service.getMemberByID(dto.getEmail());
+		
+		Member m = memberRepo.findByEmail(dto.getEmail()).orElse(null);
 
 		MemberNumberResult mnr = new MemberNumberResult();
 		mnr.setNumber(0);
@@ -70,7 +80,9 @@ public class MemberController {
 			return new ResponseEntity<MemberNumberResult>(mnr, HttpStatus.OK);
 		}
 
-		service.addMember(dto);
+		//service.addMember(dto);
+		memberRepo.save(dto);
+		
 		return new ResponseEntity<MemberNumberResult>(mnr, HttpStatus.OK);
 	}
 
@@ -79,8 +91,10 @@ public class MemberController {
 	public ResponseEntity<Member> getMemberByID(@PathVariable String email) throws Exception {
 		System.out.println("================getMemberByID================\t" + new Date());
 
-		Member m = service.getMemberByID(email);
-
+		//Member m = service.getMemberByID(email);
+		Member m = memberRepo.findByEmail(email).orElse(null);
+		
+		
 		if (m == null) {
 			return new ResponseEntity<Member>(HttpStatus.NO_CONTENT);
 		}
@@ -88,26 +102,38 @@ public class MemberController {
 	}
 
 	@ApiOperation(value = "회원탈퇴", notes = "회원탈퇴")
-	@RequestMapping(value = "/deleteMember/{email}", method = RequestMethod.GET)
-	public ResponseEntity<MemberNumberResult> deleteMember(@PathVariable String email) throws Exception {
-		System.out.println("================deleteMember================\t" + new Date());
+	@GetMapping(value = "/deleteMember/{email}")
+	public ResponseEntity<CommonResponse> deleteMember(@RequestHeader("x-access-token") String accesstoken, @PathVariable String email) throws Exception {
+		//회원탈퇴 부분은 더 봐야됨.
+		logger.info("================deleteMember================\t" + new Date());
 
-		Member m = service.getMemberByID(email);
-
-		MemberNumberResult mnr = new MemberNumberResult();
-		mnr.setNumber(0);
-		mnr.setName("deleteMember");
-		mnr.setState("succ");
+		//Member m = service.getMemberByID(email);
+		if(accesstoken == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		
+		if(!jwtTokenService.validateToken(accesstoken) || !jwtTokenService.getUserPk(accesstoken).equals(email) ) {
+			return new ResponseEntity<CommonResponse>(new CommonResponse(-1,"token isn't validate or not equals email", CommonResponse.FAIL), HttpStatus.BAD_REQUEST);
+		}
+		
+		Member m = memberRepo.findByEmail(email).orElse(null);
+		
+		CommonResponse res = new CommonResponse();
+		res.setCode(0);
+		res.setMsg("deleteMember succ");
+		res.setState(CommonResponse.SUCC);
 
 		if (m == null) {
-			mnr.setNumber(-1);
-			mnr.setName("deleteMember");
-			mnr.setState("fail");
-			return new ResponseEntity<MemberNumberResult>(mnr, HttpStatus.OK);
+			res.setCode(-1);
+			res.setMsg("deleteMember fail, not exist member");
+			res.setState(CommonResponse.FAIL);
+			return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
 		}
 
-		service.deleteMember(email);
-		return new ResponseEntity<MemberNumberResult>(mnr, HttpStatus.OK);
+		//service.deleteMember(email);
+		memberRepo.delete(m);
+		
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "이메일 확인", notes = "이메일 확인")
@@ -115,7 +141,8 @@ public class MemberController {
 	public ResponseEntity<MemberNumberResult> checkEmail(@PathVariable String email) throws Exception {
 		System.out.println("================checkEmail================\t" + new Date());
 		
-		Member m = service.getMemberByID(email);
+		//Member m = service.getMemberByID(email);
+		Member m = memberRepo.findByEmail(email).orElse(null);
 		
 		MemberNumberResult mnr = new MemberNumberResult();
 		mnr.setNumber(0);
@@ -139,7 +166,9 @@ public class MemberController {
 		logger.info(dto.toString());
 		
 		String id = dto.getEmail();
-		Member m = service.getMemberByID(id);
+		//Member m = service.getMemberByID(id);
+		Member m = memberRepo.findByEmail(id).orElse(null);
+		
 		
 		logger.info(m.toString());
 		MemberNumberResult mnr = new MemberNumberResult();
@@ -152,6 +181,10 @@ public class MemberController {
 		}
 		
 		String token = jwtTokenService.createToken(id, m.getAuth());
+		
+		m.setToken(token);
+		memberRepo.save(m);
+		
 		System.out.println(token + "======" + new Date());
 
 		mnr.setNumber(0);
@@ -233,7 +266,8 @@ public class MemberController {
         
         //member 에 있는 token -> accessToken으로 업데이트 해야된다.
         member.setToken(accessToken);
-        service.changeMemberInfo(member);
+        memberRepo.save(member);
+//        service.changeMemberInfo(member);
         
         LoginResponse res = new LoginResponse(0, "social login success", CommonResponse.SUCC);
         res.setAccessToken(jwtTokenService.createToken(member.getEmail(), member.getAuth()));
@@ -254,9 +288,46 @@ public class MemberController {
         //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         member.setEmail(githubMember.getLogin());
         member.setGithub(githubMember.getLogin());
-        service.addMember(member);
+        
+        memberRepo.save(member);
+        
+        //service.addMember(member);
         //service.changeMemberInfo(member);
+        
         return new CommonResponse(0, "social signup success", CommonResponse.SUCC);
+    }
+	
+	@ApiOperation(value = "login_access_token으로 유저정보 알기", notes = "/api/user 로 회원정보를 알 수 있다.")
+    @GetMapping(value = "/user")
+    public ResponseEntity<UserInfoRespose> getUserByToken(@ApiParam(value = "loing_access_token", required = true) @RequestHeader("x-access-token") String accessToken) {
+		logger.info("----getUserByToken----  " + accessToken);
+    	if(accessToken == null) {
+    		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    	}
+    	if(!jwtTokenService.validateToken(accessToken)) {
+    		return new ResponseEntity<>(new UserInfoRespose(1, "Token이 유효하지 않습니다.",   CommonResponse.FAIL, null),HttpStatus.BAD_REQUEST);
+    	}
+		String email = jwtTokenService.getUserPk(accessToken);
+		logger.info("email - " + email);
+        Member member = memberRepo.findByEmail(email).orElse(null);
+        logger.info("member - " + member.toString());
+        member.setPwd("");
+        UserInfoRespose res = new UserInfoRespose(0, "UserInfo 전달", CommonResponse.SUCC, member);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+	
+	@ApiOperation(value = "회원가입된 유저들", notes = "/api/users 로 회원들의 이메일을 알 수 있다.")
+    @GetMapping(value = "/findAllEmail")
+    public ResponseEntity<SingleResult<List<String>>> getFindAllEmail() {
+		logger.info("----getFindAllEmail----  ");
+		List<String> dates = new ArrayList<>();
+		List<Member> users = memberRepo.findAll();
+		for(Member member : users) {
+			dates.add(member.getEmail());
+		}
+		SingleResult<List<String>> res = new SingleResult<>(0, "반한된 유저들", CommonResponse.SUCC);
+		res.setData(dates);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 	
 }
