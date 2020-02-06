@@ -3,8 +3,6 @@
     color="#424242"
     padless
   >
-  
-  
 
   <!-- 로고 위치 -->
   <v-col
@@ -22,11 +20,15 @@
   <v-col
   cols="10"
   >
-  
-    <!-- 개인정보 처리 방침 -->
     <v-row
       no-gutters
     >
+  
+    <!-- 개인정보 처리 방침 -->
+
+      <Policy></Policy>
+
+      <!-- 개발자들/ 문의 이메일 -->
       <v-btn
         v-for="item in firstMenuItems"
         :key="item.key"
@@ -40,7 +42,9 @@
       </v-btn>
     </v-row>
 
-    <v-row
+    <!-- 주소 -->
+    <OurMap></OurMap>
+    <!-- <v-row
       no-gutters
     >
       <v-btn
@@ -53,7 +57,7 @@
       >
         {{ item.title }}
       </v-btn>
-    </v-row>
+    </v-row> -->
     
     <!-- 저작권 및 날짜 표시 -->
     <v-row
@@ -72,9 +76,12 @@
   </v-footer>
 </template>
 <script>
+import Policy from './Policy'
+import OurMap from './OurMap'
 export default {
     components: {
-
+      Policy,
+      OurMap,
     },
     name: 'Footer',
     data() {
@@ -83,7 +90,6 @@ export default {
             logo: require('../../assets/m5.png')
           },
           firstMenuItems: [
-              {title: '개인정보처리방침'},
               {title: '만든 사람들', path:'/aboutuspage'},
               {title: '문의사항: godofssafy@ssafy.com'},
           ],

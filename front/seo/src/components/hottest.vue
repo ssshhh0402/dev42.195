@@ -8,7 +8,7 @@
         </v-layout>
         </v-col>
     <v-layout mt-5 wrap style="background:lightgrey">
-        <v-flex xs4 v-for="i in contents.length > limits? limits: contents.length" :key="i.key">
+        <v-flex xs12 lg4 v-for="i in contents.length > limits? limits: contents.length" :key="i.key">
             <hot class="ma-3"
                 :content="contents[i+3]">
             </hot>
