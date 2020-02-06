@@ -60,7 +60,7 @@ export default {
                 
             this.$router.push('registhackaton');
             }else if(data==='신청하기'){
-                this.$router.push('join')
+                this.$router.push('join');
             }
         }
     },
