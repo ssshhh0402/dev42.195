@@ -264,6 +264,8 @@ public class MemberController {
         //Member newMember = githubMemberService.getMemberByGithubMember(githubMember, githubUserEmail);
         member.setEmail(githubMember.getLogin());
         member.setGithub(githubMember.getLogin());
+        member.setNotNullAuth();
+        
         memberRepo.save(member);
         
         //service.addMember(member);
@@ -275,7 +277,7 @@ public class MemberController {
 	@ApiOperation(value = "login_access_token으로 유저정보 알기", notes = "/api/user 로 회원정보를 알 수 있다.")
     @GetMapping(value = "/user")
     public ResponseEntity<UserInfoRespose> getUserByToken(@ApiParam(value = "loing_access_token", required = true) @RequestHeader("x-access-token") String accessToken) {
-		logger.info("----getUserByToken----");
+		logger.info("----getUserByToken----  " + accessToken);
     	if(accessToken == null) {
     		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     	}

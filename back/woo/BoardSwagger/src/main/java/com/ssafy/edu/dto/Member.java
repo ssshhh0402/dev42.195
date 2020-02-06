@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 @Entity
 @Table( name = "cmember")
 public class Member implements Serializable{
@@ -16,7 +18,10 @@ public class Member implements Serializable{
 	private String pwd;
 	private String phone;
 	private String name;
+	
+	@ColumnDefault("USER")
 	private String auth;
+	
 	private String job;
 	private String token;
 	private String info;
@@ -49,6 +54,12 @@ public class Member implements Serializable{
 	public String toString() {
 		return "Member [email=" + email + ", pwd=" + pwd + ", phone=" + phone + ", name=" + name + ", auth=" + auth
 				+ ", job=" + job + ", token=" + token + ", info=" + info + ", birth=" + birth + "]";
+	}
+	
+	public void setNotNullAuth() {
+		if(auth == null) {
+			auth = "USER";
+		}
 	}
 
 	public String getEmail() {
