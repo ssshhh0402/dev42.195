@@ -1,7 +1,7 @@
 <template>
 <v-row>
 <v-col>
-  <v-container style="width:75%; margin:auto;border:black solid 1px">
+  <v-card style="width:75%; margin:auto; border-radius:15px">
     <v-row no-gutter>
       <v-col
         cols="6" >
@@ -9,50 +9,78 @@
           <v-img
           :src="hackatonData.img"
           style="margin:auto"
-          width="100%"
-          aspect-ratio="0.8"
+          width="70%"
+          aspect-ratio="0.7"
           />
         </v-container>
       </v-col>
       <v-col
         cols="6">
-        <v-container style="border:black solid 1px">
-            <v-row style="height: 10vw; align-items:center; border:black solid 1px;">
-                <div class="headline font-weight-bold text-truncate" style="align-items:center;margin:auto;">{{hackatonData.title}}</div>
+        <v-card-text>
+            <v-row style="height: 3vw; align-items:center;">
+                <div class="headline font-weight-bold text-truncate" style="align-items:start;"><span style="font-size:3vmin">{{hackatonData.title}}</span></div>
             </v-row>
-            <v-row style="height: 10vw; align-items:center;font-size:3vmin; border:black solid 1px;">
-                <div style="margin:auto"> {{hackatonData.price}}원</div>
+            <v-row style="height:3vw; align-items:center;">
+              <v-col
+                cols="12"
+              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">모임장소  {{hackatonData.location}}</div>
+              </v-col>
             </v-row>
-            <v-row style="height: 10vw; align-items:center;font-size:3vmin;border:black solid 1px;">
-                <div style="margin:auto"> {{hackatonData.host}}</div>
+            <v-row style="height:3vw; align-items:center;">
+              <v-col
+                cols="12"
+              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">참가비용  {{hackatonData.price}}원</div>
+              </v-col>
             </v-row>
-            <v-row style="height: 10vw; align-items:center;font-size:3vmin">
-                  <v-col
-                  cols="6"
-                  >
-                    <div class="text-truncate" style="text-align:center;font-size:3vmin;" > {{hackatonData.location.split(',')[1]}}</div>
-                  </v-col>
-                  <v-col
-                  cols="6">
-                    <div style="text-align:center;font-size:2.5vmin;margin:auto">{{hackatonData.people_now}} / {{hackatonData.people_num}}</div>
-                  </v-col>
+            <v-row style="height:3vw; align-items:center;">
+              <v-col
+                cols="12"
+              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">개최자  {{hackatonData.host}}</div>
+              </v-col>
             </v-row>
-        </v-container>
+            <v-row style="height:3vw; align-items:center;">
+              <v-col
+                cols="12"
+              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">지원현황  {{hackatonData.people_now}} / {{hackatonData.people_num}}</div>
+              </v-col>
+            </v-row>
+             <v-row style="height:30vmin; align-items:center;">
+              <v-col
+                cols="12"
+              > <v-card 
+                style="text-align:center;font-size:2.3vmin;height:30vmin;">
+                  <v-row style="margin:0">
+                    <v-col
+                    cols="4" style="border-bottom:solid grey 1px">
+                    팀명</v-col>
+                    <v-col
+                    cols="4"
+                    style="border-bottom:solid grey 1px">
+                    아이디어</v-col>
+                    <v-col
+                    cols="4"
+                    style="border-bottom:solid grey 1px">
+                    인원수</v-col>
+                  </v-row>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row style="height:3vw;;">
+              <v-col
+                cols="12"
+              > <v-btn
+                  prima
+                  @click="btnApply()"
+                  color="yellow" 
+                  style=" height: 3rem; width: 15rem; font-size: 2rem; color:#424242; font-weight: bolder;margin-top:10px;">신청하기</v-btn>
+              </v-col>
+            </v-row>
+            
+        </v-card-text>
       </v-col>
     </v-row>
-  </v-container>
-  <v-container height="10vw" style="width:75%">
-    <v-flex>
-      <v-layout>
-        <a href="#none" target="__blank" style="text-decoration:none;margin-left:auto">
-          <v-btn
-          prima
-          @click="btnApply()"
-          color="orange" 
-          style=" height: 3rem; width: 15rem; padding: 0; font-size: 2rem; font-weight: bolder">신청하기</v-btn></a>
-      </v-layout>
-    </v-flex>
-  </v-container>
+  </v-card>
+  
   </v-col>
   <v-col
     cols="12">
@@ -66,7 +94,7 @@
       <v-tab
         v-for="tab in tabs"
         :key="tab.key"
-        style="color:white;font-size:2rem"
+        style="color:white;font-size:1.3rem"
       >
         {{ tab_item[tab-1].title }}
       </v-tab>
@@ -76,7 +104,7 @@
       <v-tab-item
         v-for="item in tabs"
         :key="item.key"
-        style="height:500px">
+        style="height:500px;overflow:scroll;overflow-x:hidden">
         <v-card flat>
           <hInfo v-if="item === 1" :content="hackatonData"></hInfo>
           <uInfo v-if="item === 2"></uInfo>

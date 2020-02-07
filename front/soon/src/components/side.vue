@@ -1,11 +1,10 @@
 <template>
-<div>
     <header style="min-height:0">
         <v-app-bar fixed elevate-on-scroll class="container-fluid" style="width:100%;z-index:2">
-            <v-toolbar-title class="col-2">
+            <v-toolbar-title style="width:3vm">
                 <router-link to="/" tag="span" style="cursor:pointer; font-weight:bold"> 
                 <v-img
-                width="150px"
+                width="130px"
                 height="60px"
                 src="../assets/m5.png"
                 contain
@@ -13,24 +12,42 @@
                 </v-img>
                 </router-link> 
             </v-toolbar-title>
-            <v-container class="d-flex justify-center col-6 offset-1" style="min-height:0" >
+            <v-container class="d-flex justify-center offset-1" style="min-height:0;width:4vm" >
                 <v-text-field solo rounded label='검색' hide-details="auto" style="border: yellow solid 2.5px;"></v-text-field>
             </v-container>
-            <v-toolbar-items class="col-4 justify-start" >
+            <v-app-bar-nav-icon @click="sidebar =!sidebar" class="hidden-lg-and-up" style="margin-right:20px">
+                <v-icon color="yellow"> {{"drag_indicator"}}</v-icon>
+            </v-app-bar-nav-icon>
+            <v-toolbar-items class="justify-start hidden-md-and-down" style="width:2vm">
                 <v-btn
                 text
-                large
                 v-for="item in menuItems"
                 :key="item.title"
                 color="white"
                 style="text-align:center;">
-                <h2 style="font-weight:bold;font-size:1.5rem;"
+                <h2 style="font-weight:bold;font-size:1.2rem;"
                 @click="bannerClick(item.title)">{{item.title}}</h2>
             </v-btn>
             </v-toolbar-items>
         </v-app-bar>
+          <v-navigation-drawer
+        v-model="sidebar"
+        disable-resize-watcher
+        clipped
+        right
+        app
+        style="background:#424242">
+        <v-list-item-group>
+            <v-list-item
+            v-for="item in menuItems"
+            :key="item.key"
+            style="text-align:center;"
+            @click="bannerClick(item.title)">
+            <v-list-item-content style="color:white; font-size:1rem;font-weight:bold;margin:auto">{{item.title}}</v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+        </v-navigation-drawer>
     </header>
-</div>
 </template>
 
 <script>
@@ -41,6 +58,7 @@ export default {
     },
     data(){
         return {
+            sidebar: false,
             menuItems:[
                 {title: '신청하기', icon: 'note_add'},
                 {title:'만들기', icon: 'public'},

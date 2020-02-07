@@ -1,4 +1,5 @@
 <template>
+    <v-content>
     <v-row>
         <v-col
             cols="12"
@@ -16,6 +17,7 @@
             </v-layout>
         </v-col>
     </v-row>
+    </v-content>
 </template>
 <script>
 import cards from './cards'

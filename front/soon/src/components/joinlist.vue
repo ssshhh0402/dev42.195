@@ -1,9 +1,9 @@
 <template>
     <div>
     <v-layout wrap>
-        <v-flex xs12 sm6 lg3 v-for="i in lists.length" :key="i">
+        <v-flex xs12 sm6 lg3 v-for="i in lists.slice(8*(page-1),8*(page-1)+8)" :key="i.key">
             <join class="ma-3"
-            :contents="lists[i-1]"
+            :contents="i"
             ></join>
         </v-flex>
     </v-layout>
@@ -12,7 +12,7 @@
         <v-pagination
             v-model="page"
             class="my-4"
-            :length="parseInt(lists.length / 4) + 1"
+            :length="page_limit"
             ></v-pagination>
     </div>
     </div>
@@ -31,9 +31,11 @@ export default {
                 ],
             
             page : 1,
+            page_limit : 0
         }
     },
     mounted(){
+        
         this.setting()
     },
     methods:{
@@ -41,6 +43,11 @@ export default {
              http.get('./getBoard')
             .then(message =>{
                 this.lists=message.data;
+                if (this.lists.length % 8 === 0){
+                    this.page_limit = this.lists.length / 8
+                }else {
+                    this.page_limit = this.lists.length / 8 + 1
+                }
             })
     }
 }

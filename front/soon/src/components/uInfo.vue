@@ -1,6 +1,6 @@
 <template>
     <div>
-        uInfo
+        Host에 대한 정보 들어감
     </div>
 </template>
 <script>

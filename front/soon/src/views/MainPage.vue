@@ -15,10 +15,10 @@
       </v-col>
     </v-row>
     <v-row align-content="center" row fill-height>
-      <v-col
-      cols="12" style="margin-top:0px">
-      </v-col>
+      <!-- <v-col
+      cols="12" style="padding:0">
       <card_list> </card_list>
+      </v-col> -->
       <register-github-member :dialog="ifLogin" @onLogin="onLogin_2"></register-github-member>
     </v-row>
   </v-container>
