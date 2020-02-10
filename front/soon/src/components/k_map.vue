@@ -25,7 +25,7 @@ export default {
             var mapContainer = document.getElementById('k_map')
             var mapOption = {
                 center : new kakao.maps.LatLng(36.355211, 127.298437),
-                level: 2
+                level: 1
             }
             var map = new kakao.maps.Map(mapContainer, mapOption);
             var geocoder = new kakao.maps.services.Geocoder();

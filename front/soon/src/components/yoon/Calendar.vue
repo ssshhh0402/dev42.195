@@ -9,9 +9,9 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date"
             :label="title"
             readonly
+            v-model="date"
             v-on="on"
           ></v-text-field>
         </template>
@@ -36,6 +36,9 @@
         date(){
             this.updateDate();
         }
+    },
+    mounted(){
+      this.date = "";
     }
   }
 </script>

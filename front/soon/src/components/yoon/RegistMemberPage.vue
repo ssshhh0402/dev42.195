@@ -49,7 +49,7 @@
               </v-col>
             </v-row>
             <v-row>
-                <v-btn style="margin:auto 3px auto auto;" width="3vw" color="warning" large dark @click="dialog = false">Close</v-btn>
+                <v-btn style="margin:auto 3px auto auto;" width="3vw" color="warning" large dark @click="false">Close</v-btn>
                 <v-btn style="margin:auto auto auto 3px;" width="3vw" color="success" large dark @click="clickSaveBtn()">Save</v-btn>
             </v-row>
           </v-container>
@@ -68,7 +68,6 @@ export default {
   },
   data(){
     return{
-      dialog : false,
       ismailOther : false,
       mail:"",
       id : "",
@@ -105,8 +104,8 @@ export default {
     clickSaveBtn(){
       if(this.checkBirthToColor==="blue"&&this.checkIDColor==="blue"&&this.checkMailColor==="blue"&&this.checkPwdColor==="blue"
       &&this.checkNameColor==="blue"&&this.duplicateCheckColor==="blue"){
-      http
-      .post("/addMember", {
+        http
+          .post("/addMember", {
           birth: this.birth,
           email: this.id+"@"+this.mail,
           info: "test1",
@@ -119,7 +118,6 @@ export default {
                 console.log("clickSaveBtn() >>> "+response.data.state);
                 if(response.data.state=="succ"){
                   alert("회원 가입 성공!!!!");
-                  this.dialog = false;
                 }
         });
     }else{
@@ -167,9 +165,6 @@ export default {
       if(regExp.test(this.name)) return true;
       else return false;
     },
-    ifClickESC(){
-      this.dialog = false;
-    },
     isGithubLogin(){ //github login
       let code = location.search.split('code=')[1];
       var params = new URLSearchParams();
@@ -180,7 +175,6 @@ export default {
           console.log("성공!");
           document.cookie = `accessToken=${response.data.name}`;
           http.defaults.headers.common['x-access-token'] = response.data.name;
-          this.dialog = false;
         }else{
           console.log("없는 회원입니다. 회원가입을 진행합니다. ");
         }
@@ -190,17 +184,6 @@ export default {
       });
 
       return this.isSituationRegister();
-    },
-    isSituationRegister(){
-      let code = location.search.split('code=')[1];
-      console.log(code);
-      let accessToken = this.getCookie('accessToken');
-      console.log(">>>>"+accessToken);
-      if(code!=""&&code!==undefined&&code!==null){
-        if(accessToken==""||accessToken===undefined||accessToken===null){
-          this.dialog =true;
-        }
-      }
     },
     getCookie(cname) {
       var name = cname + "=";

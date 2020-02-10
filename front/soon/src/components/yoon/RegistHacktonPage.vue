@@ -16,7 +16,7 @@
                         <v-text-field solo-inverted v-model="host" label="주최*" required></v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-text-field  v-model="price" type="number" label="정원*" required></v-text-field>
+                        <v-text-field  v-model="people_num" type="number" label="정원*" required></v-text-field>
                     </v-col>
                     <v-col cols="6"> 
                         <v-text-field   v-model="price" type="number"  label="참가비" required></v-text-field>
@@ -213,7 +213,18 @@ export default {
         console.log("실패")
       });
       return console.log(dto);
-    }
+    },
+    // checkDate(){
+      // startDate : String,
+      // endDate : String,
+      // apply_start : String,
+      // apply_end : String,
+      // if(startDate>endDate){
+
+      // }else if(apply_start>apply_end){
+
+      // }
+    // }
   }, 
   watch:{
     NoplaceCheckBox(){
