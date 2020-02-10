@@ -39,14 +39,14 @@ export default {
         this.setting()
     },
     methods:{
-        setting(){
+        setting(){  
              http.get('./getBoard')
             .then(message =>{
                 this.lists=message.data;
                 if (this.lists.length % 8 === 0){
                     this.page_limit = this.lists.length / 8
                 }else {
-                    this.page_limit = this.lists.length / 8 + 1
+                    this.page_limit = (this.lists.length / 8) + 1
                 }
             })
     }

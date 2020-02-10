@@ -116,7 +116,7 @@
   </v-col>
   <v-col
   cols="12">
-    <comment :board_id="hackatonData.board_id"></comment>
+    <comment v-if="hackatonData.board_id != undefined" :board_id="hackatonData.board_id"></comment>
   </v-col>
 </v-row>
 </template>

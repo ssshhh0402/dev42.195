@@ -76,19 +76,29 @@ export default {
                     console.log("?>>>>>>>");
                     this.$emit('onLogin', true)
                 }
-                else{
-                    //다른거
-                }
             }else if(data ==='만들기'){
-                
-            this.$router.push('registhackaton');
+                this.$router.push('registhackaton');
             }else if(data==='신청하기'){
                 this.$router.push('/join')
             }else if(data==='내 정보'){
                 alert('성공!#@#!@#!#@!');
             }
+        },
+        init(){
+            if (this.isLogin){
+                this.menuItems[2].title = '로그아웃'
+            }
+            else{
+                this.menuItems[2].title = '로그인'
+            }
         }
+        
+     
     },
+    mounted(){
+        this.init()
+    }
+  
 }
 </script>
  <style>

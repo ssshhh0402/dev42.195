@@ -2,7 +2,6 @@
   <v-row>
   <v-container fill style="width:100%;align-items:center; padding:0;">
     <v-row>
-      
     <v-col
       cols="12" style="background:#FED64D;padding:0">
       <card_list> </card_list>
@@ -29,6 +28,7 @@ import http from '../http-common';
 import card_list from '../components/card_list';
 import alarm from '../components/alarm';
 import RegisterGithubMember from '../components/yoon/RegisterGithubMember';
+
 export default {
   name: 'HelloWorld',
   components : {
