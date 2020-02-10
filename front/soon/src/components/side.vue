@@ -80,7 +80,7 @@ export default {
                 this.$router.push('registhackaton');
             }else if(data==='신청하기'){
                 this.$router.push('/join')
-            }else if(data==='내 정보'){
+            }else if(data==='로그아웃'){
                 alert('성공!#@#!@#!#@!');
             }
         },
