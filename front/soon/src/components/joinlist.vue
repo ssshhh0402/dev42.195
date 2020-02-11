@@ -1,6 +1,7 @@
 <template>
     <div>
     <v-layout wrap>
+        <div style="width:100%">
         <v-card  
         flat
         style="width:100%; height:3vw; background:#fafafa">
@@ -11,10 +12,11 @@
         :label="items[order]"
         v-model="order"
         background-color="white"
-        style="margin-left:auto;height:2vw;width:20%;text-align:center;font-size:1.1rem"
+        style="margin-left:auto;height:1.5vw;width:20%;text-align:center;font-size:1rem"
         >
         </v-select>
         </v-card>
+        </div>
         <v-flex id="test" xs12 sm6 lg3 v-for="i in sortedlists.slice(8*(page-1),8*(page-1)+8)" :key="i.key">
             <join class="ma-3"
             :contents="i"
@@ -69,9 +71,9 @@ export default {
             var ab= this.lists.sort(function(a,b){
                 if (order === '날짜'){
                     if(a.start > b.start){
-                        return 1;
-                    }else if(a.start < b.start){
                         return -1;
+                    }else if(a.start < b.start){
+                        return 1;
                     }return 0
                 }else if(order === '이름'){
                     var c = a.title.toUpperCase();
@@ -98,41 +100,5 @@ export default {
             return sorted;
         }
     }
-
-    // watch:{
-    //     order : function(reorder){
-    //         this.reorder(reorder);
-            // this.lists = this.lists.sort(function(a,b){
-            //     if (reorder === '날짜'){
-            //         if(a.start > b.start){
-            //             return 1;
-            //         } else if(a.start < b.start){
-            //             return -1;
-            //         }
-            //         return 0
-            //     } else if(reorder === '이름'){
-            //         var c = a.title.toUpperCase();
-            //         var d = b.title.toUpperCase();
-            //         if (c > d){
-            //             return 1
-            //         }else if (c < d){
-            //             return -1
-            //         }
-            //         return 0
-            //     } else if(reorder === '참가비용'){
-            //         if (a.price - b.price < 0){
-            //             return -1
-            //         }else if(a.price - b.price > 0){
-            //             return 1
-            //         }
-            //         return 0
-            //     }
-            // })
-            // console.log(this.lists)
-            // var evt= document.getElementById('test')
-            // console.log(evt)
-            // evt.$forceUpdate();
-        // }
-    // }
 }
 </script>

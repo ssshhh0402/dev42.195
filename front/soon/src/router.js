@@ -11,6 +11,7 @@ import PageNotFound from  './components/yoon/PageNotFound.vue';
 import ApplyHackatonPage from './components/yoon/ApplyHackatonPage.vue';
 import AboutUsPage from './components/seo/AboutUsPage.vue';
 import NoticePage from './components/seo/NoticePage.vue';
+import TestPage from './views/TestPage.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -78,6 +79,11 @@ export default new Router({
             path:'/noticepage',
             name: 'noticepage',
             component: NoticePage
+        },
+        {
+            path:'/testpage',
+            name: 'testpage',
+            component: TestPage
         }
 
     ]

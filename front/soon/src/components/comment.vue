@@ -41,7 +41,7 @@ import http from '../http-common'
 export default {
     name:'TestPage',
     props:{
-        board_id:{type:Number}
+        boardId:{type:Number}
     },
     data(){
         return{
@@ -51,7 +51,7 @@ export default {
     },
     methods:{
         init(){
-            http.get('/getComment/'+this.board_id)
+            http.get('/getComment/'+this.boardId)
             .then(response =>{
                 this.texts=response.data
             })
@@ -61,10 +61,10 @@ export default {
                 var dto={
                     email : 'IT403JDY',
                     ccontent : this.naeyong,
-                    board_id : this.board_id
+                    board_id : this.boardId
                 }
                 http.post('/addComment',{
-                    board_id:dto.board_id,
+                    boardId:dto.board_id,
                     ccontent:dto.ccontent,
                     email:dto.email
                 })

@@ -1,21 +1,18 @@
 <template>
         <v-row>
-            <comment></comment>
+            <test></test>
         </v-row>
 </template>
 <script>
-import comment from '../components/comment'
+import test from '../components/test'
 export default {
     
     name:'TestPage',
     components :{
-        comment,
+        test,
     },
     data(){
-        return{
-            naeyong:'',
-            texts:[],
-        }
+     
     },
     methods:{
       

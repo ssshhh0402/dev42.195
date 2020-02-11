@@ -15,7 +15,6 @@ export default {
         }
     },
     mounted(){
-        console.log('k_map 도착')
         this.init()
     },
     methods:{

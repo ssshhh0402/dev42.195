@@ -41,7 +41,7 @@
             <v-row style="height:3vw; align-items:center;">
               <v-col
                 cols="12"
-              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">지원현황  {{hackatonData.people_now}} / {{hackatonData.people_num}}</div>
+              > <div class="text-truncate" style="text-align:start;font-size:2.3vmin;">지원현황  {{hackatonData.peopleNow}} / {{hackatonData.peopleNum}}</div>
               </v-col>
             </v-row>
              <v-row style="height:30vmin; align-items:center;">
@@ -107,7 +107,6 @@
         style="height:500px;overflow:scroll;overflow-x:hidden">
         <v-card flat>
           <hInfo v-if="item === 1" :content="hackatonData"></hInfo>
-          <uInfo v-if="item === 2"></uInfo>
           <k_map v-if="item === 3" :address="hackatonData.location" style="overflow:scroll; overflow-x:hidden "></k_map>
         </v-card>
       </v-tab-item>
@@ -116,38 +115,39 @@
   </v-col>
   <v-col
   cols="12">
-    <comment v-if="hackatonData.board_id != undefined" :board_id="hackatonData.board_id"></comment>
+    <comment v-if="hackatonData.boardId != undefined" :boardId="hackatonData.boardId"></comment>
   </v-col>
 </v-row>
+
 </template>
 <script>
 import hInfo from './hInfo'
-import uInfo from './uInfo'
 import k_map from './k_map'
 import comment from './comment'
 export default {
     name:'detail',
     components:{
       hInfo,
-      uInfo,
       k_map,
       comment
     },
     data(){
         return{
           tab:0,
-          tabs:3,
+          tabs:2,
           hackatonData : {
           },
           tab_item:[
             {title:'해커톤 정보'},
-            {title : '개최자 정보'},
             {title : '위치정보'}
           ]
         }
     },
     mounted(){
       this.hackatonData = JSON.parse(sessionStorage.getItem('contents'))
+      console.log('---------------------------------Detail--------------------------------')
+      console.log(this.hackatonData)
+      console.log('---------------------------------------------------------')
     },
     methods:{
       btnApply(){

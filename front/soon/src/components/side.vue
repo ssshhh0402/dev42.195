@@ -2,7 +2,7 @@
     <header style="min-height:0">
         <v-app-bar fixed elevate-on-scroll class="container-fluid" style="width:100%;z-index:2">
             <v-toolbar-title style="width:3vm">
-                <router-link to="/" tag="span" style="cursor:pointer; font-weight:bold"> 
+                <router-link to="/testpage" tag="span" style="cursor:pointer; font-weight:bold"> 
                 <v-img
                 width="130px"
                 height="60px"
@@ -43,7 +43,27 @@
             :key="item.key"
             style="text-align:center;"
             @click="bannerClick(item.title)">
-            <v-list-item-content style="color:white; font-size:1rem;font-weight:bold;margin:auto">{{item.title}}</v-list-item-content>
+            <v-list-item-content v-if="item == menuItems[menuItems.length-1]" style="color:white; font-size:1rem;font-weight:bold;margin:auto">
+                <v-expansion-panels 
+                flat 
+                tile
+                accordion>
+                    <v-expansion-panel style="background:#424242; font-size:1rem;font-weight:bold;width:100%;color:white;">
+                        <v-expansion-panel-header style="padding:0">{{item.title}}</v-expansion-panel-header>
+                        <v-expansion-panel-content style="color:white;">
+                            <v-list-item-group>
+                                <v-list-item
+                                v-for="content in expansionLists"
+                                :key="content.key"
+                                >
+                                    <v-list-item-content style="color:white;text-align:end">{{content.title}}</v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-list-item-content>
+            <v-list-item-content v-else style="color:white; font-size:1rem;font-weight:bold;margin:auto">{{item.title}}</v-list-item-content> 
             </v-list-item>
         </v-list-item-group>
         </v-navigation-drawer>
@@ -64,6 +84,11 @@ export default {
                 {title:'만들기', icon: 'public'},
                 {title: '로그인', icon: 'person'}
             ],
+            expansionLists : [
+                {title : 'a'},
+                {title : 'b'},
+                {title : 'c'}
+            ],
             test:"",
             onLoginModal:false,
             token:"",
@@ -80,8 +105,8 @@ export default {
                 this.$router.push('registhackaton');
             }else if(data==='신청하기'){
                 this.$router.push('/join')
-            }else if(data==='로그아웃'){
-                alert('성공!#@#!@#!#@!');
+            // }else if(data==='로그아웃'){
+            //     alert('성공!#@#!@#!#@!');
             }
         },
         init(){

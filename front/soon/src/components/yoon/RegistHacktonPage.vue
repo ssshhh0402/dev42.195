@@ -181,12 +181,12 @@ export default {
       let dto = {
         title:this.title,
         host:this.host,
-        apply_start:this.apply_start,
-        apply_end:this.apply_end,
+        applyStart:this.apply_start,
+        applyEnd:this.apply_end,
         start:this.startDate,
         end:this.endDate,
-        people_num:this.people_num,
-        price:this.price,
+        peopleNum:parseInt(this.people_num),
+        price:parseInt(this.price),
         info:this.info,
         location:this.address+this.detailAddress,
         email:'data@data'
@@ -194,7 +194,7 @@ export default {
         dto = JSON.stringify(dto);
       console.log(dto);
       formdata.append('file',this.chosenFile);
-      formdata.append('dto_str',dto);
+      formdata.append('boardString',dto);
       if(this.registCheck()){
         return;
       }
