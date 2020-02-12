@@ -18,24 +18,77 @@
             <v-app-bar-nav-icon @click="sidebar =!sidebar" class="hidden-lg-and-up" style="margin-right:20px">
                 <v-icon color="yellow"> {{"drag_indicator"}}</v-icon>
             </v-app-bar-nav-icon>
-            <v-toolbar-items class="justify-start hidden-md-and-down" style="width:2vm">
-                <v-btn
+             <v-toolbar-items class="justify-start hidden-md-and-down" style="width:2vm">
+            <v-btn
                 text
-                v-for="item in menuItems"
-                :key="item.title"
                 color="white"
-                style="text-align:center;">
-                <h2 style="font-weight:bold;font-size:1.2rem;"
-                @click="bannerClick(item.title)">{{item.title}}</h2>
+                style="text-align:center; width:2vm;"> 
+                <h2 style="font-weight:bold; font-size:1.2rem;"
+                @click="bannerClick('신청하기')">신청하기</h2>
             </v-btn>
+            <v-btn
+                text
+                color="white"
+                style="text-align:center; width:2vm;"> 
+                <h2 style="font-weight:bold; font-size:1.2rem;"
+                @click="bannerClick('만들기')">만들기</h2>
+            </v-btn>
+            <v-menu v-if="isLoginsub"  offset-y>
+            <template  v-slot:activator="{ on }">
+              <v-btn
+                  text
+                  color="white"
+                  style="text-align:center; width:2vm;"
+                  v-on="on"
+             >
+                   <h2 style="font-weight:bold; font-size:1.2rem;">내정보</h2>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="(item, index) in items"
+                :key="index"
+                @click="myInfoSubClick(item.title)"
+              >
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+            </v-menu>
+            <v-btn
+                v-if="!isLoginsub"
+                text
+                color="white"
+                style="text-align:center; width:2vm;"> 
+                <h2 style="font-weight:bold; font-size:1.2rem;"
+                @click="bannerClick('로그인')">로그인</h2>
+            </v-btn>
+
+
             </v-toolbar-items>
         </v-app-bar>
-          <v-navigation-drawer
+                 <v-navigation-drawer
         v-model="sidebar"
         disable-resize-watcher
         clipped
         right
         app
+        style="background:#424242">
+        <v-list-item-group>
+            <v-list-item
+            v-for="item in menuItems"
+            :key="item.key"
+            style="text-align:center;"
+            @click="bannerClick(item.title)">
+            <v-list-item-content style="color:white; font-size:1rem;font-weight:bold;margin:auto">{{item.title}}</v-list-item-content>
+            </v-list-item>
+        </v-list-item-group>
+        </v-navigation-drawer>
+           <v-navigation-drawer
+        v-model="sidebar"
+      absolute
+      dark
+      right
+      temporary
         style="background:#424242">
         <v-list-item-group>
             <v-list-item
@@ -53,7 +106,7 @@
                         <v-expansion-panel-content style="color:white;">
                             <v-list-item-group>
                                 <v-list-item
-                                v-for="content in expansionLists"
+                                v-for="content in items"
                                 :key="content.key"
                                 >
                                     <v-list-item-content style="color:white;text-align:end">{{content.title}}</v-list-item-content>
@@ -74,7 +127,7 @@
 export default {
     name : 'side',
     props:{
-        isLogin:Boolean,
+        isLoginsub:Boolean,
     },
     data(){
         return {
@@ -84,14 +137,16 @@ export default {
                 {title:'만들기', icon: 'public'},
                 {title: '로그인', icon: 'person'}
             ],
-            expansionLists : [
-                {title : 'a'},
-                {title : 'b'},
-                {title : 'c'}
-            ],
             test:"",
             onLoginModal:false,
             token:"",
+            items: [
+                { title: 'Click Me' },
+                { title: 'Click Me' },
+                { title: 'Click Me' },
+                { title: '로그아웃' },
+            ],
+            onMenu:true,
         }
     },
     methods: {
@@ -105,26 +160,37 @@ export default {
                 this.$router.push('registhackaton');
             }else if(data==='신청하기'){
                 this.$router.push('/join')
-            // }else if(data==='로그아웃'){
-            //     alert('성공!#@#!@#!#@!');
+            }else if(data==='내 정보'){
+                // alert('성공!#@#!@#!#@!');
+                this.onMenu = !this.onMenu;
+                console.log(this.onMenu);
             }
         },
-        init(){
-            if (this.isLogin){
-                this.menuItems[2].title = '로그아웃'
-            }
-            else{
-                this.menuItems[2].title = '로그인'
+        myInfoSubClick(title){
+            if(title==="로그아웃"){
+                this.$emit('logOut',true);
             }
         }
-        
-     
     },
     mounted(){
-        this.init()
+        console.log(">>side.vue--------mounted()>>isLogin = "+this.isLoginsub);
+        if(this.isLoginsub){
+            this.menuItems[2].title = "내 정보";
+        }else{
+            this.menuItems[2].title = "로그인";
+        }
+    },
+    watch:{
+        isLoginsub(){
+            if(this.isLoginsub){
+            this.menuItems[2].title = "내 정보";
+            }else{
+            this.menuItems[2].title = "로그인";
+            }
+        }
     }
-  
 }
+
 </script>
  <style>
  .v-toolbar__content {

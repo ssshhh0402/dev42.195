@@ -181,12 +181,12 @@ export default {
       let dto = {
         title:this.title,
         host:this.host,
-        applyStart:this.apply_start,
-        applyEnd:this.apply_end,
+        apply_start:this.applyStart,
+        apply_end:this.applyEnd,
         start:this.startDate,
         end:this.endDate,
-        peopleNum:parseInt(this.people_num),
-        price:parseInt(this.price),
+        people_num:this.people_num,
+        price:this.price,
         info:this.info,
         location:this.address+this.detailAddress,
         email:'data@data'
@@ -198,7 +198,22 @@ export default {
       if(this.registCheck()){
         return;
       }
-      
+      let _start = parseInt(((this.startDate.toString()).split('-')).join(''));
+      let _end = parseInt(((this.endDate.toString()).split('-')).join(''));
+      let _apply_start = parseInt(((this.apply_start.toString()).split('-')).join(''));
+      let _apply_end = parseInt(((this.apply_end.toString()).split('-')).join(''));
+      console.log(_start);
+      // let _apply_end = parseInt(dto.apply_end.replace('-',''));
+      console.log(`start : ${_start} end : ${_end} apply_start : ${_apply_start} apply_end : ${_apply_end}`);
+      if(_apply_start<=_start){
+        if(_apply_start>_apply_end){
+          return alert("접수 날짜 경고!");
+        }else if(_start>_end){
+          return alert("기간 경고!");
+        }
+      }else{
+          return alert("날짜 경고!");
+      }
       http.post('/addBoard',formdata,{
         headers: { 'Content-Type': 'multipart/form-data' }
       }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:100%">
     <v-img src="https://www.onlygfx.com/wp-content/uploads/2017/07/yellow-watercolor-brush-stroke-2.png"
            aspect-ratio="3">
       <v-layout align-center justify-center row fill-height>

@@ -10,7 +10,7 @@
        </v-col>
        <v-col
        cols="10">
-        <p style="font-size:2rem;">{{content.apply_start}} ~ {{content.apply_end}}</p>
+        <p style="font-size:2rem;">{{content.applyStart}} ~ {{content.applyEnd}}</p>
        </v-col>
        <br>
        <v-col

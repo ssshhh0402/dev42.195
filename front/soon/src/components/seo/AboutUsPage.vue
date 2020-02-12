@@ -77,7 +77,7 @@ export default {
     data() {
         return {
             ours: [
-                {name: '서현택', job: 'Front 담당', content:'통계학과/컴퓨터공학과',  path: require('../../assets/taek.png'), num: 1},
+                {name: '서현택', job: 'Front 담당', content:'통계학과/컴퓨터공학과', path: require('../../assets/taek.png'), num: 1},
                 {name: '홍순범', job: 'Front 담당', content: '심리학과/컴퓨터공학과', path: require('../../assets/beom.png'), num: 2},
                 {name: '정대윤', job: 'Front 담당', content: '경영학과/컴퓨터공학과', path: require('../../assets/yoon.png'), num: 3},
                 {name: '안우진', job: 'Back 담당', content: '컴퓨터공학과', path: require('../../assets/woo.png'), num: 4},

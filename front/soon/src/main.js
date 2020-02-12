@@ -10,6 +10,10 @@ import VueSimplemde from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import zingchartVue from 'zingchart-vue';
+
+Vue.component('zingchart', zingchartVue);
+
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 Vue.use(VueSimplemde)

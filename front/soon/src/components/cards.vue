@@ -15,9 +15,9 @@
                 </v-card-title>
                 <v-card-text style="color:black; font-size:1.5rem">
                     <p class="text"> 모집시작시간 </p>
-                    <p class="text">{{start_y}}년 {{start_m}}월 {{start_d}}일</p>
+                    <p class="text">{{start_y}}년 {{start_m}}월 {{start_d}}일 {{start_t}}시</p>
                     <p class="text"> 모집시간종료 </p>
-                    <p class="text">{{end_y}}년 {{end_m}}월 {{end_d}}일</p>
+                    <p class="text">{{end_y}}년 {{end_m}}월 {{end_d}}일 {{end_t}}시</p>
                     <p class="text"> 장소 </p>
                     <p class="text">{{content.location}}</p>
                 </v-card-text>
@@ -49,13 +49,14 @@ export default {
     },
     methods:{
         setting(){
-            console.log(this.content)
             this.start_y = this.content.start.slice(0,4)
-            this.start_m = this.content.start.slice(5,7)
-            this.start_d = this.content.start.slice(8,10)
+            this.start_m = this.content.start.slice(4,6)
+            this.start_d = this.content.start.slice(6,8)
+            this.start_t = this.content.start.slice(8, 12)
             this.end_y = this.content.end.slice(0,4)
-            this.end_m = this.content.end.slice(5,7)
-            this.end_d = this.content.end.slice(8,10)
+            this.end_m = this.content.end.slice(4,6)
+            this.end_d = this.content.end.slice(6,8)
+            this.end_t = this.content.end.slice(8,12)
         }
     }
 }

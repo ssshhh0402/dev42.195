@@ -4,34 +4,37 @@
             공지사항
         </h1>
         <br>
-        <v-simple-table fixed-header height="30rem">
-        <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">공지번호</th>
-          <th class="text-left">제목</th>
-          <th class="text-left">내용</th>
-          <th class="text-left">필수</th>
-          <th class="text-left">작성날짜</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="notice in notices.slice(10*(page-1),10*(page))" :key="notice.key">
-          <td><p>{{notice.noticeId}}</p></td>
-          <td><p>{{notice.title}}</p></td>
-          <td><p>{{notice.content}}</p></td>
-          <td><p v-if="notice.ncheck==1">필수</p><p v-else></p></td>
-          <td><p>{{notice.date}}</p></td>
-        </tr>
-      </tbody>
-    </template>
-    </v-simple-table>
+        <v-row dense>
+            <v-col cols="1"><h3>공지번호</h3></v-col>
+            <v-col cols="9"><h3>제목</h3></v-col>
+            <v-col cols="2"><h3>작성날짜</h3></v-col>
+        </v-row>
+        <hr>
+        <hr>
+        <v-row
+        v-for="notice in notices.slice(10*(page-1),10*(page))"
+        :key="notice.key"
+        >
+            <v-col cols="1"><p>{{notice.noticeId}}</p></v-col>
+            <v-col cols="9"><p>{{notice.title}}</p></v-col>
+            <v-col cols="2"><p>{{notice.date}}</p></v-col>
+            <v-col cols="12"><hr></v-col>
+        </v-row>
+        <div class="text-center">
+
+    <v-pagination
+      v-model="page"
+      :length="parseInt(notices.length / 10) + 1"
+      :total-visible="5"
+    ></v-pagination>
+
+  </div>
     </v-container>
 </template>
 <script>
 import http from '../../http-common'
 export default {
-    name: 'NoticePage',
+    name: 'Notice',
     components: {
         
     },
@@ -57,7 +60,7 @@ export default {
                 this.notices = message.data;
                 console.log(this.message)
             })
-        },
+        }
     },
     mounted() {
         this.init()

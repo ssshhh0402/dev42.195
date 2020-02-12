@@ -12,7 +12,10 @@ export default {
         test,
     },
     data(){
-     
+        return{
+            naeyong:'',
+            texts:[],
+        }
     },
     methods:{
       

@@ -15,6 +15,7 @@ export default {
         }
     },
     mounted(){
+        console.log('k_map 도착')
         this.init()
     },
     methods:{
@@ -24,7 +25,7 @@ export default {
             var mapContainer = document.getElementById('k_map')
             var mapOption = {
                 center : new kakao.maps.LatLng(36.355211, 127.298437),
-                level: 1
+                level: 2
             }
             var map = new kakao.maps.Map(mapContainer, mapOption);
             var geocoder = new kakao.maps.services.Geocoder();

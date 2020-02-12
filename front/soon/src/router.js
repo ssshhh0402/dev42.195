@@ -11,6 +11,8 @@ import PageNotFound from  './components/yoon/PageNotFound.vue';
 import ApplyHackatonPage from './components/yoon/ApplyHackatonPage.vue';
 import AboutUsPage from './components/seo/AboutUsPage.vue';
 import NoticePage from './components/seo/NoticePage.vue';
+import MyInfoPage from  './components/yoon/MyInfoPage.vue';
+import AdminPage from './components/seo/AdminPage.vue';
 import TestPage from './views/TestPage.vue'
 Vue.use(Router)
 
@@ -81,8 +83,18 @@ export default new Router({
             component: NoticePage
         },
         {
+            path : '/myinfopage',
+            name : 'myinfopage',
+            component : MyInfoPage 
+        },
+        {
+            path:'/adminpage',
+            name:'adminpage',
+            component: AdminPage
+        },
+        {
             path:'/testpage',
-            name: 'testpage',
+            name:'testpage',
             component: TestPage
         }
 

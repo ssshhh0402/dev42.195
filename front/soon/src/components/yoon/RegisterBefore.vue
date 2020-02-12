@@ -5,7 +5,7 @@
         <v-img :aspect-ratio="2" src="https://cdn.pixabay.com/photo/2015/10/02/10/36/the-background-968350_1280.jpg">
         <v-layout align-center fill-height>
                 <v-flex >
-                    <v-row style="margin:10px;" j>
+                    <v-row style="margin:10px;">
                     <v-col cols="12">
                         <v-col height="1px" cols="8" style="margin:auto auto 0px auto;">
                             <span style="color:white">ID</span><v-text-field  background-color="#EEEEEE" outlined v-model="uid" required></v-text-field>
@@ -32,14 +32,13 @@
         <v-card-actions style="background-color: darkgray;">
           <v-spacer></v-spacer>
         <v-layout justify-center>
-            <v-flex >  
+            <v-flex>  
                 <v-btn style="margin:auto 3px auto auto;" width="3vw" color="#424242" large dark @click="onLogin()">Close</v-btn>
                 <v-btn style="margin:auto auto auto 3px;" width="3vw" color="#F9A825" large dark @click="clickLoginBtn()">Login</v-btn>
             </v-flex>
         </v-layout>
         </v-card-actions>
       </v-card>
-      
     </v-dialog>
   </v-row>
 </template>
@@ -90,16 +89,16 @@ export default {
                     .then(response => {
                         if (response.data.state === "succ") {
                             alert('로그인 성공');
-                            console.log(response.data);
-                            // document.cookie = `accessToken=${response.data.accessToken}`;
-                            // http.defaults.headers.common['x-access-token'] = response.data.accessToken;
+                            console.log("RegiBefore>>-------clickLoginBtn"+response.data.name);
                             document.cookie = `accessToken=${response.data.name}`;
                             http.defaults.headers.common['x-access-token'] = response.data.name;
+                            sessionStorage.setItem('x-access-token',response.data.name);
+                            return this.onLogin();
                         }else{
                             alert('로그인 실패');
                         }
                     });
-                    return this.onLogin();
+                    
             },
             clickRegistMember(){
                 this.onLogin();

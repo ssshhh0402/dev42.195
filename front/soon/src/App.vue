@@ -1,12 +1,11 @@
 <template>
   <v-app >
-      <side class="sidebar" @onLogin="onLogin_2" :isLogin="true"/>
-      <v-content>
+     <side   @onLogin="onLogin_2" :isLoginsub="isLogin" @logOut="outLog"/>
       <ImgBanner/>
       <router-view/>
       <Footer/>
       <RegisterBefore :dialog="onLoginModal" @onLogin="onLogin_2"/>
-    </v-content>
+      <register-github-member :dialog="ifLogin" @onLogin="onLogin_3"></register-github-member>
 
   </v-app>
 </template>
@@ -16,48 +15,100 @@ import side from './components/side'
 import ImgBanner from './components/ImgBanner'
 import Footer from './components/seo/Footer'
 import RegisterBefore from './components/yoon/RegisterBefore'
+import RegisterGithubMember from './components/yoon/RegisterGithubMember'
+import http from './http-common';
 export default {
   name: 'App',
   components : {
     side,
     ImgBanner,
-    Footer,
+    Footer, 
     RegisterBefore,
+    RegisterGithubMember,
   },
   data(){
     return {
       onLoginModal:false,
       isLogin:false,
+      ifLogin : false,
     }
   },
   methods:{
+    outLog(data){
+      if(data){
+        sessionStorage.setItem('x-access-token',null);
+        this.isLogin = false;
+        return this.callback();
+      }
+    },
     onLogin_2(data){
       console.log("!!!!!!!!!!!!!!!!!!!");
-      if(sessionStorage.getItem('x-access-token')===null||sessionStorage.getItem('x-access-token')===undefined||sessionStorage.getItem('x-access-token')===""){
+      if(sessionStorage.getItem('x-access-token')==null||sessionStorage.getItem('x-access-token')==undefined||sessionStorage.getItem('x-access-token')==""||sessionStorage.getItem('x-access-token')=="null"){
         this.isLogin = false;
-        this.$forceUpdate;
-
-        console.log("App.vue>>-----------this.isLogin = null");
+        console.log("App.vue>>-----------this.isLogin = null >>");
       }else{
         this.isLogin = true;
-        this.$forceUpdate;
-        console.log("App.vue>>-----------this.isLogin Not null----"+this.isLogin);
+        console.log("App.vue>>-----------this.isLogin Not null >>"+this.isLogin);
+        console.log(sessionStorage.getItem('x-access-token'));
       }
-      
       this.onLoginModal = data;
     },
-    init(){
-      this.isLogin = this.sessionStroage.getItem('x-access-token')
+    checkLogin(){
+      let code = location.search.split('code=')[1];
+      console.log("App.vue>>------checkLogin()-----"+code);
+      http.post('/github/accessToken',{"code":code})
+      .then(response=>{
+        // console.log("??????????"+response.data);
+        return this.isJWTNull(response.data);
+      })
+      .catch(err=>{
+        console.log(err);
+      });
+    },
+    isJWTNull(value){
+      sessionStorage.setItem('github-access-token',value.access_token);
+      if(value.login_access_token==null||value.login_access_token===null||value.login_access_token=='null'){
+        console.log(">>>>>>>>>>>>>"+value);
+        return this.ifLogin=true;
+      }else{
+          sessionStorage.setItem('x-access-token',value.login_access_token);
+          http.defaults.headers.common['x-access-token'] = value.login_access_token;
+          console.log("App.vue>>mounted()----"+sessionStorage.getItem('x-access-token'));
+          console.log("App.vue>>mounted()----"+sessionStorage.getItem('github-access-token'));
+          return this.callback();
+      }
+      
+    },
+    callback(){
+      if(sessionStorage.getItem('x-access-token')==null||
+    sessionStorage.getItem('x-access-token')===undefined||
+    sessionStorage.getItem('x-access-token')===""||
+    sessionStorage.getItem('x-access-token')==="null"){
+      this.isLogin = false;
+    }else{
+      this.isLogin = true;
+    }
+    console.log("App.vue>>------callback()----isLogin>>"+this.isLogin);
+    console.log("App.vue>>-----callback()-----token>>"+sessionStorage.getItem('x-access-token'));
+    },
+    onLogin_3(){
+      this.ifLogin = false;
     }
   },
   watch:{
         onLoginModal(){
-          console.log(this.onLoginModal);
+          console.log("App.vue>>----------onLoginModal()>>"+this.onLoginModal);
         },
   },
   mounted(){
-    this.init()
-  }
-  
+    
+    let code = location.search.split('code=')[1];
+    if(code!=null&&code!=""&&code!=undefined){
+      this.checkLogin();
+    }
+    
+  },
+
+
 };
 </script>
