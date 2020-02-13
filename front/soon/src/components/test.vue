@@ -1,6 +1,6 @@
 <template>
     <v-row style="margin:10px" justify="center">
-        <v-col cols="5">
+        <v-col cols="4">
             <!-- 내 피드 알림 리스트 -->
             
    <!-- <template>
@@ -48,10 +48,28 @@
         </v-card>
     </v-layout>
   </template>          -->
+  <v-card style="height:22vw">
+    <v-expansion-panels class="mb-6">
+      <v-expansion-panel
+      v-for="i in 3"
+      :key="i.key">
+        <v-expansion-panel-header expand-icon="mdi-menu-down"> i.leader으로부터의 알람이 왔습니다</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <div> 
+          i.leader님이 i.team.teamName팀으로 초대하셨습니다.<br/>
+          수락하시겠습니까?
+          </div>
+          <div style="align-items:end">
+            <button> 수락 </button> / <button> 거절</button>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </v-card>
 </v-col>
-        <v-col cols="7">
+        <v-col cols="8">
             <!-- card and textfiled -->
-                        <v-card width="80vw" >
+            <v-card width="80vw" >
             <v-container>
                 <v-card-title class="headline" style="margin:auto" > 신청자 정보 </v-card-title>
                 <v-card-text>
@@ -149,29 +167,38 @@ import http from '../http-common'
           { action: '6 hr', headline: 'Oui oui', title: 'Sandra Adams', subtitle: 'Do you have Paris recommendations? Have you ever been?' },
           { action: '12 hr', headline: 'Birthday gift', title: 'Trevor Hansen', subtitle: 'Have any ideas about what we should get Heidi for her birthday?' },
           { action: '18hr', headline: 'Recipe to try', title: 'Britta Holt', subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.' }
-        ]
+        ],
+        alarams:[],
+        token : '',
       }
     },
 
     methods: {
-      toggle (index) {
-        const i = this.selected.indexOf(index)
-        if (i > -1) {
-          this.selected.splice(i, 1)
-        } else {
-          this.selected.push(index)
-        }
-      },
+      // toggle (index) {
+      //   const i = this.selected.indexOf(index)
+      //   if (i > -1) {
+      //     this.selected.splice(i, 1)
+      //   } else {
+      //     this.selected.push(index)
+      //   }
+      // },
       init(){
         http.get('/getBoard')
         .then(response =>{
-          
           this.hackertoned = response.data
+        })
+      },
+      get_alaram(){
+        http.defaults.headers.common['x-access-token'] = sessionStorage.getItem('x-access-token');
+        http.get('team/accept')
+        .then(response =>{
+            this.alarams = response.data
         })
       }
     },
     mounted(){
       this.init()
+      this.get_alaram()
     }
   }
 </script>

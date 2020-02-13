@@ -88,9 +88,10 @@ export default {
   methods:{
     duplicateCheck(){
       if(this.checkIDColor==="blue"&&this.checkMailColor==="blue"){
+      console.log(this.id + this.email)
       http
         .get("/checkEmail/"+this.id+"@"+this.mail)
-        .then(response => {
+        .then(response => {      
             if(response.data.state=="succ"){
               this.duplicateCheckColor = "blue";
             }else{

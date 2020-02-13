@@ -196,12 +196,12 @@ export default {
 
         },
         clickSaveBtn(){
-
+            http.defaults.headers.common['x-access-token'] = sessionStorage.getItem('x-access-token');
             http.post('/team/createTeam/'+this.team_title)
             .then(response=>{
                 console.log(response.data);
                 if(response.data.state=="succ"){
-                    console.log("ApplyHackatonPage>>--------clickSaveBtn()-----실패");
+                    console.log("ApplyHackatonPage>>--------clickSaveBtn()-----성공");
                     return applyTeam(response.data.data.teamId);
                 }else{
                     console.log("ApplyHackatonPage>>--------clickSaveBtn()-----실패");
@@ -211,8 +211,9 @@ export default {
                 console.log(err);
             })
             function applyTeam(team_id){
+                http.defaults.headers.common['x-access-token'] = sessionStorage.getItem('x-access-token');
                 http.post('/team/apply',{
-                    board_id:this.contents.board_id,
+                    boardId:this.contents.boardId,
                     teamId:team_id,
                     info : this.info })
                 .then(response=>{

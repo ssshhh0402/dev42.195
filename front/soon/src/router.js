@@ -14,6 +14,7 @@ import NoticePage from './components/seo/NoticePage.vue';
 import MyInfoPage from  './components/yoon/MyInfoPage.vue';
 import AdminPage from './components/seo/AdminPage.vue';
 import TestPage from './views/TestPage.vue'
+import SearchPage from './views/SearchPage.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -96,6 +97,11 @@ export default new Router({
             path:'/testpage',
             name:'testpage',
             component: TestPage
+        },
+        {
+            path:'/searchpage',
+            name:'searchpage',
+            component: SearchPage
         }
 
     ]

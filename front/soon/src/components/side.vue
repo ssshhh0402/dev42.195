@@ -13,7 +13,7 @@
                 </router-link> 
             </v-toolbar-title>
             <v-container class="d-flex justify-center offset-1" style="min-height:0;width:4vm" >
-                <v-text-field solo rounded label='검색' hide-details="auto" style="border: yellow solid 2.5px;"></v-text-field>
+                <v-text-field solo rounded v-model="content" label='검색' hide-details="auto" style="border: yellow solid 2.5px;" @keydown.enter="searching"></v-text-field>
             </v-container>
             <v-app-bar-nav-icon @click="sidebar =!sidebar" class="hidden-lg-and-up" style="margin-right:20px">
                 <v-icon color="yellow"> {{"drag_indicator"}}</v-icon>
@@ -131,6 +131,7 @@ export default {
     },
     data(){
         return {
+            content : '',
             sidebar: false,
             menuItems:[
                 {title: '신청하기', icon: 'note_add'},
@@ -169,6 +170,16 @@ export default {
         myInfoSubClick(title){
             if(title==="로그아웃"){
                 this.$emit('logOut',true);
+            }
+        },
+        searching(){
+            if (this.content == ''){
+                alert('검색어를 입력해주세요')
+            }else{
+                sessionStorage.setItem("search", this.content)
+                // console.log(sessionStorage.getItem("search"))
+
+                this.$router.push({name:'searchpage'})
             }
         }
     },

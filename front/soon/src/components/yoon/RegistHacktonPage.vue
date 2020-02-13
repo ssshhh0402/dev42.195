@@ -181,15 +181,15 @@ export default {
       let dto = {
         title:this.title,
         host:this.host,
-        apply_start:this.applyStart,
-        apply_end:this.applyEnd,
+        applyStart:this.apply_start,
+        applyEnd:this.apply_end,
         start:this.startDate,
         end:this.endDate,
-        people_num:this.people_num,
+        peopleNum:this.people_num,
         price:this.price,
         info:this.info,
         location:this.address+this.detailAddress,
-        email:'data@data'
+        email:'data@data' //수정필요
         };
         dto = JSON.stringify(dto);
       console.log(dto);
@@ -221,6 +221,7 @@ export default {
       .then(response => {
         if (response.data.state === "succ") {
             alert('성공');
+            this.$router.push({name:'home'})
         }else{
           alert('실패');
         }

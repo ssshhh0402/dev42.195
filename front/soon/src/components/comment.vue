@@ -41,7 +41,7 @@ import http from '../http-common'
 export default {
     name:'TestPage',
     props:{
-        board_id:{type:Number}
+        boardId:{type:Number}
     },
     data(){
         return{
@@ -51,28 +51,24 @@ export default {
     },
     methods:{
         init(data){
-            console.log(">>>>>"+data);
+            console.log("getComment>>>>>"+data);
             http.get('/getComment/'+data)
             .then(response =>{
+                console.log(response.data)
                 this.texts=response.data
             })
         },
         send(){
             if (this.naeyong != ''){
-                var dto={
-                    email : 'IT403JDY',
-                    ccontent : this.naeyong,
-                    board_id : this.board_id
-                }
                 http.post('/addComment',{
-                    board_id:dto.board_id,
-                    ccontent:dto.ccontent,
-                    email:dto.email
+                    email : 'data@data',
+                    ccontent :this.naeyong,
+                    boardId : this.boardId
                 })
                 .then(response =>{
                     if(response.data.state === "succ"){
-                        this.init()
                         this.naeyong=''
+                        this.init(this.boardId)
                     }
                 })
             
@@ -80,7 +76,7 @@ export default {
         }
     },
     mounted(){
-        this.init(this.board_id);
+        this.init(this.boardId);
     }
 }
 </script>

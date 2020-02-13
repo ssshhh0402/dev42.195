@@ -47,22 +47,11 @@
              <v-row style="height:30vmin; align-items:center;">
               <v-col
                 cols="12"
-              > <v-card 
-                style="text-align:center;font-size:2.3vmin;height:30vmin;">
-                  <v-row style="margin:0">
-                    <v-col
-                    cols="4" style="border-bottom:solid grey 1px">
-                    팀명</v-col>
-                    <v-col
-                    cols="4"
-                    style="border-bottom:solid grey 1px">
-                    아이디어</v-col>
-                    <v-col
-                    cols="4"
-                    style="border-bottom:solid grey 1px">
-                    인원수</v-col>
-                  </v-row>
-                </v-card>
+              > 
+              <current
+              v-if="hackatonData.boardId !== undefined" 
+              :boardId="hackatonData.boardId">
+              </current>
               </v-col>
             </v-row>
             <v-row style="height:3vw;;">
@@ -75,7 +64,7 @@
                   style=" height: 3rem; width: 15rem; font-size: 2rem; color:#424242; font-weight: bolder;margin-top:10px;">신청하기</v-btn>
               </v-col>
             </v-row>
-            
+
         </v-card-text>
       </v-col>
     </v-row>
@@ -107,7 +96,7 @@
         style="height:500px;overflow:scroll;overflow-x:hidden">
         <v-card flat>
           <hInfo v-if="item === 1" :content="hackatonData"></hInfo>
-          <k_map v-if="item === 3" :address="hackatonData.location" style="overflow:scroll; overflow-x:hidden "></k_map>
+          <k_map v-if="item === 2" :address="hackatonData.location" style="overflow:scroll; overflow-x:hidden "></k_map>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -124,12 +113,14 @@
 import hInfo from './hInfo'
 import k_map from './k_map'
 import comment from './comment'
+import current from './current_hackerthon'
 export default {
     name:'detail',
     components:{
       hInfo,
       k_map,
-      comment
+      comment,
+      current
     },
     data(){
         return{
